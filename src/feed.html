@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="feed.css">
+
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">Our site!</a>
+    <search-bar results="feed.items"></search-bar>
+</nav>
+
+<div class='container'>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="recipe in feed.items.recipes" ng-hide='feed.selectedItemType != null'>
+                    <recipe-preview recipe="recipe" ng-click="feed.selectItem(recipe.id, 'recipe')" width="100%" height="100%"></recipe-Preview>
+                </li>
+                <li class="list-group-item" ng-repeat="person in feed.items.people" ng-hide='feed.selectedItemId != null'>
+                    <person-preview person="person" ng-click="feed.selectItem(person.id, 'person')"></person-Preview>
+                </li>
+            </ul>
+
+            <recipe ng-show='feed.selectedItemType == "recipe"' recipe="feed.selectedItem" on-deselect="feed.deselectItem()"></recipe>
+
+        </div>
+        <div class="col-md-3">
+            <person ng-show='feed.selectedPerson != null' person='feed.selectedPerson'></person>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+

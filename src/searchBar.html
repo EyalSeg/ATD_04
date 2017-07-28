@@ -1,0 +1,8 @@
+<form class="form-inline">
+    <button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: searchCtrl.searchMode === 'recipes'}" ng-click="searchCtrl.searchMode='recipes'">Recipes</button>
+    <button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: searchCtrl.searchMode === 'people'}" ng-click="searchCtrl.searchMode='people'">People </button>
+    
+    <input class="form-control" type="text" placeholder="Search" ng-model="searchCtrl.searchQuery">
+    
+    <button class="btn btn-primary" type="submit" ng-click="searchCtrl.search()">Search</button>
+</form>
