@@ -8,6 +8,7 @@ app.directive('feed', function(){
             this.items = [];
             this.selectedItem = null;
             this.selectedItemType = null;
+            this.mode = 'recipes';
 
             this.selectedPerson = null;
 
@@ -15,7 +16,6 @@ app.directive('feed', function(){
 
                 apiService.getItem(itemType, itemId)
                     .then(function(response){
-                    // TODO: handle error
                     if (itemType.toLowerCase() == 'person')
                     {
                         that.selectedPerson = response.data;
@@ -24,7 +24,7 @@ app.directive('feed', function(){
                     {
                         that.selectedItem = response.data;
                         that.selectedItemType = itemType;
-                        that.selectItem(that.selectedItem.authorId, 'person');
+                        that.selectItem(response.data.authorId, 'person');
                     }
 
                 });
