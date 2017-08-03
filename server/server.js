@@ -10,6 +10,8 @@ mongoClient.connect(mongoUrl, function (error, db) {
     var express = require('express');
     var app = express();
 
+    var bodyParser = require('body-parser');
+
 
     // Add headers
     app.use(function (req, res, next) {
@@ -30,6 +32,17 @@ mongoClient.connect(mongoUrl, function (error, db) {
         // Pass to next layer of middleware
         next();
     });
+
+    app.use(function(req, res, next){
+        console.log('got request: ' +req.protocol + '://' + req.get('host') + req.originalUrl);
+
+        next();
+    });
+
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+        extended: true
+    }));
 
     app.get('/', function (req, res) {
         res.send('Hello World');
@@ -83,6 +96,28 @@ mongoClient.connect(mongoUrl, function (error, db) {
         });
     });
 
+    app.post('/people', function (req, res) {
+        var user = {
+            'name': req.body.name,
+            'profilePicture': req.body.profilePicture,
+            'follows': [],
+        };
+        db.collection('people').insert(user, function (err, result) {
+            console.log('created person with id ' + user._id);
+            res.send(user._id)
+        });
+
+    });
+
+    app.post('/people/:id/follows', function (req, res) {
+        console.log(req.body.followeeId);
+        db.collection('people').update(
+            { '_id': ObjectId(req.params['id']) },
+            { '$addToSet': { 'follows': ObjectId(req.body.followeeId) } },
+            function (result)
+            { res.send(result) }
+        );
+    });
 
     var server = app.listen(8081, function () {
         var host = server.address().address
