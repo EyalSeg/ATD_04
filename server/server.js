@@ -71,9 +71,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
     });
 
     app.get('/recipes', function (req, res) {
-        var nameToFind = req.query.name;
+        var searchTerm = req.query.query;
 
-        dbHandler.searchRecipes(nameToFind)
+        dbHandler.searchRecipes(searchTerm)
             .then((results) => res.send(results));
     });
 
