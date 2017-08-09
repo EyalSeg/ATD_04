@@ -64,7 +64,7 @@ mongoClient.connect(mongoUrl, function (error, db) {
 
     app.get('/recipes/popular', function (req, res) {
 
-        dbHandler.getPopularRecipes(requesterId)
+        dbHandler.getPopularRecipes()
             .then(function (results) {
                 res.send(results);
             });
@@ -99,6 +99,13 @@ mongoClient.connect(mongoUrl, function (error, db) {
             .then((people) => { res.send(people) });
     });
 
+    app.get('/people/popular', function (req, res) {
+        dbHandler.getPopularPeople()
+            .then(function (results) {
+                res.send(results);
+            });
+    });
+
     app.get('/people/:id', function (req, res) {
         dbHandler.getPerson(req.params['id'])
             .then(function (doc) {
@@ -110,6 +117,14 @@ mongoClient.connect(mongoUrl, function (error, db) {
         dbHandler.getFollowees(req.params['id'])
             .then(function (followees) {
                 res.send(followees);
+            });
+
+    });
+
+    app.get('/people/:id/followers', function (req, res) {
+        dbHandler.getFollowers(req.params['id'])
+            .then(function (followers) {
+                res.send(followers);
             });
 
     });
@@ -167,38 +182,43 @@ mongoClient.connect(mongoUrl, function (error, db) {
     app.post('/people/:id/follows', function (req, res) {
         dbHandler.follow(req.params['id'], req.body.followeeId)
             .then((result) => {
-                if (result == null)
-                    res.sendStatus(404);
+                if (result == 1)
+                    res.sendStatus(204);
                 else
-                    res.send(result)
+                    res.sendStatus(501)
             });
     });
 
-    app.put('/recipes/:id/content', function (req, res){
+    app.put('/recipes/:id/content', function (req, res) {
         console.log(req.body.content);
         dbHandler.updateRecipe(req.params['id'], req.body.content)
-        .then (result => {
-            if (result == 1)
-                res.sendStatus(204)
-            else
-                res.sendStatus(501)
-        })
+            .then(result => {
+                if (result == 1)
+                    res.sendStatus(204)
+                else
+                    res.sendStatus(501)
+            })
     })
 
-    app.delete('/recipes/:id', function(req, res){
+    app.delete('/recipes/:id', function (req, res) {
         dbHandler.deleteRecipe(req.params['id'])
-        .then((result) =>{
-            if (result == 1)
-                res.sendStatus(204)
-            else
-                res.sendStatus(501)
-        });
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(204)
+                else
+                    res.sendStatus(501)
+            });
 
     })
 
     app.delete('/people/:followerId/follows/:followeeId', function (req, res) {
         dbHandler.unfollow(req.params['followerId'], req.params['followeeId'])
-            .then((result => res.send(result)));
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.sendStatus(501)
+            });
     })
 
     app.delete('/recipes/:recipeId/likes/:likerId', function (req, res) {
@@ -207,11 +227,11 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 if (result == 1)
                     res.sendStatus(200);
                 else
-                    res.send(result)
+                    res.sendStatus(501)
             });
     })
 
-    app.delete('/recipes/:recipeId/authors/:authorId', function(req, res){
+    app.delete('/recipes/:recipeId/authors/:authorId', function (req, res) {
         dbHandler.removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
             .then((result) => {
                 if (result == 1)
