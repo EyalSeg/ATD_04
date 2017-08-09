@@ -20,6 +20,9 @@ var createNewPerson = function (personToCreate) {
 
         var request = http.request(options, function (response) {
             response.on('data', function (data) {
+                if (response.statusCode == 409)
+                    reject("email taken");
+
                 id = JSON.parse(data);
                 console.log('created person! name: ' + personToCreate.name + ' id: ' + id);
                 personToCreate._id = id;

@@ -2,6 +2,7 @@ function peopleService(db) {
     require('./mongoService.js').mongoService.call(this, db);
     var ObjectId = this.ObjectId;
     
+    this.personCardProjection = { 'name': 1, 'profilePicture': 1 };
     this.personPreviewProjection = { 'name': 1, 'profilePicture': 1, 'numOfFollows': 1, 'numOfFollowers': 1 };
     this.personProjection = { 'name': 1, 'profilePicture': 1, 'numOfFollows': 1, 'numOfFollowers': 1 };
 
@@ -23,12 +24,26 @@ function peopleService(db) {
         return service.getPerson(id, service.personPreviewProjection);
     }
 
+    this.getPersonCard = function(id){
+        return service.collection('people').find(
+            {'_id': ObjectId(id)},
+            service.personCardProjection
+        ).toArray().then((array) => {return array[0]});
+    }
+
     this.getPeople = function (ids, projection = service.personPreviewProjection) {
         return service.collection('people').aggregate([
             { '$match': { '_id': { '$in': ids } } },
             service.addPersonFields,
             { '$project': projection }
         ])
+            .toArray();
+    }
+
+    this.getPeopleCards = function(ids){
+        return service.collection('people').find(
+            { '_id': { '$in': ids } },
+            service.personCardProjection)
             .toArray();
     }
 

@@ -73,7 +73,6 @@ function controller(service) {
         var recipe = req.body;
 
         service.postRecipe(recipe, (error, result) => {
-            console.log(result)
             res.send(result.insertedIds[0]);
         });
     }

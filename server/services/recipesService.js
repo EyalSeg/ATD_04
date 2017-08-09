@@ -27,7 +27,7 @@ function recipesService(db, peopleService) {
     }
 
     this.addRecipeAuthor = function (recipeId, authorId) {
-        return people.getPersonPrivew(authorId)
+        return people.getPersonCard(authorId)
             .then((newAuthor) =>
                 service.db.collection('recipes').update(
                     { '_id': ObjectId(recipeId) },
@@ -105,7 +105,7 @@ function recipesService(db, peopleService) {
     this.postRecipe = function (recipe, callback) {
         authorIds = recipe.authors.map((author) => ObjectId(author));
 
-        return service.people.getPeople(authorIds).then((authors) => {
+        return service.people.getPeopleCards(authorIds).then((authors) => {
             recipe.comments = [];
             recipe.likes = [];
             recipe.authors = authors;
@@ -143,7 +143,7 @@ function recipesService(db, peopleService) {
     }
 
     this.addComment = function (recipeId, authorId, content) {
-        return service.people.getPersonPrivew(authorId)
+        return service.people.getPersonCard(authorId)
             .then((author) => {
                 var comment = {
                     'author': author,

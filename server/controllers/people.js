@@ -68,7 +68,11 @@ function controller(service) {
         };
 
         service.insertPerson(user, function (err, result) {
-            res.send(user._id)
+            if (err != null) {
+                res.status(409).send(err.message);
+            }
+            else
+                res.send(user._id)
         });
     }
 
