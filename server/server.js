@@ -134,6 +134,16 @@ mongoClient.connect(mongoUrl, function (error, db) {
         });
     });
 
+    app.post('/recipes/:id/authors', function (req, res) {
+        dbHandler.addRecipeAuthor(req.params['id'], req.body.authorId)
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(201);
+                else
+                    res.sendStatus(501);
+            })
+    });
+
     app.post('/recipes/:id/comments', function (req, res) {
         dbHandler.addComment(req.params['id'], req.body.author, req.body.content)
             .then((result) => {
@@ -164,6 +174,28 @@ mongoClient.connect(mongoUrl, function (error, db) {
             });
     });
 
+    app.put('/recipes/:id/content', function (req, res){
+        console.log(req.body.content);
+        dbHandler.updateRecipe(req.params['id'], req.body.content)
+        .then (result => {
+            if (result == 1)
+                res.sendStatus(204)
+            else
+                res.sendStatus(501)
+        })
+    })
+
+    app.delete('/recipes/:id', function(req, res){
+        dbHandler.deleteRecipe(req.params['id'])
+        .then((result) =>{
+            if (result == 1)
+                res.sendStatus(204)
+            else
+                res.sendStatus(501)
+        });
+
+    })
+
     app.delete('/people/:followerId/follows/:followeeId', function (req, res) {
         dbHandler.unfollow(req.params['followerId'], req.params['followeeId'])
             .then((result => res.send(result)));
@@ -171,8 +203,23 @@ mongoClient.connect(mongoUrl, function (error, db) {
 
     app.delete('/recipes/:recipeId/likes/:likerId', function (req, res) {
         dbHandler.unlikeRecipe(req.params['recipeId'], req.params['likerId'])
-            .then((result => res.send(result)));
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.send(result)
+            });
     })
+
+    app.delete('/recipes/:recipeId/authors/:authorId', function(req, res){
+        dbHandler.removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.send(result)
+            });
+    });
 
     var server = app.listen(8081, function () {
         var host = server.address().address
