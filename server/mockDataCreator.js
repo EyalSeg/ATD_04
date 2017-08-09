@@ -145,19 +145,24 @@ var like = function (recipeId, likerId) {
 };
 
 var sarah = new Person('Sarah',
-    'https://s-media-cache-ak0.pinimg.com/736x/a2/e1/8c/a2e18cbfbcaa8756fe5b40f472eeff45--profile-picture-profile-pics.jpg');
+    'https://s-media-cache-ak0.pinimg.com/736x/a2/e1/8c/a2e18cbfbcaa8756fe5b40f472eeff45--profile-picture-profile-pics.jpg',
+'sarah@mail.com', '123456');
 
 var suzanne = new Person('Suzanne',
-    'https://s-media-cache-ak0.pinimg.com/736x/3e/b8/f9/3eb8f9632af1b0702f15f99a01ce7135--black-and-white-sketches-black-and-white-doodles.jpg');
+    'https://s-media-cache-ak0.pinimg.com/736x/3e/b8/f9/3eb8f9632af1b0702f15f99a01ce7135--black-and-white-sketches-black-and-white-doodles.jpg',
+'suzanne@mail.com', '123456');
 
 var john = new Person('John Doe',
-    'http://img13.deviantart.net/1043/i/h2015/121/6/b/new_id_by_crisvector-d2vqia1.png');
+    'http://img13.deviantart.net/1043/i/h2015/121/6/b/new_id_by_crisvector-d2vqia1.png',
+'johndoe@mail.com', '123456');
 
 var alice = new Person('Alice',
-    'https://s-media-cache-ak0.pinimg.com/736x/07/dd/12/07dd1283d19211a46dbbb29ec4483fe8--drawings-faces-girl-art-drawings.jpg');
+    'https://s-media-cache-ak0.pinimg.com/736x/07/dd/12/07dd1283d19211a46dbbb29ec4483fe8--drawings-faces-girl-art-drawings.jpg',
+'alice@mail.com', '123456');
 
 var jessica = new Person('Jessica',
-    "https://s-media-cache-ak0.pinimg.com/236x/46/14/f7/4614f73916868602adf0d531e9cd31f1.jpg");
+    "https://s-media-cache-ak0.pinimg.com/236x/46/14/f7/4614f73916868602adf0d531e9cd31f1.jpg",
+'jessica@mail.com', '123456');
 
 Promise.all([
     createNewPerson(sarah),
@@ -238,7 +243,9 @@ function Recipe(title, description, authors, ingredients, previewPicture, conten
     this.content = content;
 }
 
-function Person(name, profilePicture) {
+function Person(name, profilePicture, email, password) {
     this.name = name;
     this.profilePicture = profilePicture;
+    this.email = email;
+    this.password = password;
 }
