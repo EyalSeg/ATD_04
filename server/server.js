@@ -1,6 +1,6 @@
 var mongoUrl = 'mongodb://localhost:27017/ATD04';
 var mongoClient = require('mongodb').MongoClient, assert = require('assert');
-var ObjectId = require('mongodb').ObjectId;
+
 
 mongoClient.connect(mongoUrl, function (error, db) {
     assert.equal(error, null);
@@ -11,10 +11,10 @@ mongoClient.connect(mongoUrl, function (error, db) {
     var app = express();
 
     var bodyParser = require('body-parser');
-
+    var dbHandler = require('./dbHandler.js').dbHandler(db);
 
     // Add headers
-        app.use(function (req, res, next) {
+    app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,8 +33,8 @@ mongoClient.connect(mongoUrl, function (error, db) {
         next();
     });
 
-    app.use(function(req, res, next){
-        console.log('got request: ' +req.protocol + '://' + req.get('host') + req.originalUrl);
+    app.use(function (req, res, next) {
+        console.log('got request: ' + req.protocol + '://' + req.get('host') + req.originalUrl);
 
         next();
     });
@@ -45,97 +45,238 @@ mongoClient.connect(mongoUrl, function (error, db) {
     }));
 
     app.get('/', function (req, res) {
-        res.send('wtf');
+        res.send('Hello World');
     })
 
-    app.get('/recipes', function (req, res) {
-        var recipes = [];
-
-        recipes.push(new Recipe(
-            1,
-            'אמא שלך בלאפה',
-            'Sarah',
-            '597e2f469996a853288419df',
-            'https://s-media-cache-ak0.pinimg.com/736x/3e/b8/f9/3eb8f9632af1b0702f15f99a01ce7135--black-and-white-sketches-black-and-white-doodles.jpg',
-            'http://www.nrg.co.il/images/archive/465x349/1/443/159.jpg',
-            'כזאת ביג. עם אומלט'));
-
-        recipes.push(new Recipe(
-            2,
-            'קיש אחותך',
-            'Sally Doe',
-            '597e2f469996a853288419e0',
-            'https://s-media-cache-ak0.pinimg.com/736x/a2/e1/8c/a2e18cbfbcaa8756fe5b40f472eeff45--profile-picture-profile-pics.jpg',
-            'https://www.chef-lavan.co.il/uploads/f_57f4c1be84abd_1475658174.jpg',
-            'נחשו מה? היא גם צולעת.'));
-
-        res.send(recipes);
+    app.get('/index', function (req, res) {
+        // TODO: Return index.html
     })
 
-    app.get('/recipes/:id', function (req, res) {
-        res.send({
-            'id': req.params['id'],
-            'title': 'פסאדו מתכון',
-            'author': "james",
-            'authorId': '597e2f469996a853288419df',
-            'profilePicture': "https://s-media-cache-ak0.pinimg.com/736x/3e/b8/f9/3eb8f9632af1b0702f15f99a01ce7135--black-and-white-sketches-black-and-white-doodles.jpg",
-            'content': "לך חפש"
-        });
-    });
+    app.get('/recipes', searchRecipes);
+    app.get('/recipes/latest', getLatestRecipes);
+    app.get('/recipes/popular', getPopularRecipes);
 
-    app.get('/people', function (req, res) {
-        db.collection('people').find({}).toArray(function (error, docs) {
-            assert.equal(error, null);
-            res.send(docs);
-        });
-    });
+    app.get('/recipes/:id', getRecipeById);
+    app.get('/recipes/:id/likes', getRecipeLikes);
+    app.get('/recipes/:id/comments', getRecipeComments);
 
-    app.get('/people/:id', function (req, res) {
-        db.collection('people').findOne({ '_id': ObjectId(req.params['id']) }).then(function (doc) {
-            res.send(doc);
-        });
-    });
+    app.post('/recipes', postRecipe);
+    app.post('/recipes/:id/authors', addRecipeAuthor);
+    app.post('/recipes/:id/comments', addRecipeComment);
+    app.post('/recipes/:id/likes', likeRecipe);
 
-    app.post('/people', function (req, res) {
+    app.put('/recipes/:id/content', updateRecipeContent);
+
+    app.delete('/recipes/:id', deleteRecipe);
+    app.delete('/recipes/:recipeId/likes/:likerId', unlike);
+    app.delete('/recipes/:recipeId/authors/:authorId', removeAuthor);
+
+
+
+    app.get('/people', searchPeople);
+    app.get('/people/popular', getPopularPeople);
+
+    app.get('/people/:id', gerPersonById);
+    app.get('/people/:id/follows', getFollowees);
+    app.get('/people/:id/followers', getFollowers);
+
+    app.post('/people', postPerson);
+    app.post('/people/:id/follows', followPerson);
+
+    app.delete('/people/:followerId/follows/:followeeId', unfollow);
+
+
+
+    function getLatestRecipes(req, res) {
+        var requesterId = req.query.requesterId;
+
+        dbHandler.getLatestRecipes(requesterId)
+            .then(function (results) {
+                res.send(results);
+            });
+    }
+
+    function getPopularRecipes(req, res) {
+        dbHandler.getPopularRecipes()
+            .then(function (results) {
+                res.send(results);
+            });
+    }
+
+    function searchRecipes(req, res) {
+        var searchTerm = req.query.query;
+
+        dbHandler.searchRecipes(searchTerm)
+            .then((results) => res.send(results));
+    }
+
+    function getRecipeById(req, res) {
+        dbHandler.getRecipe(req.params['id'])
+            .then((recipe) => { res.send(recipe) });
+    }
+
+    function getRecipeLikes(req, res) {
+        dbHandler.getLikes(req.params['id'])
+            .then((recipe) => { res.send(recipe) });
+    }
+
+    function getRecipeComments(req, res) {
+        dbHandler.getComments(req.params['id'])
+            .then((recipe) => { res.send(recipe) });
+    }
+
+    function searchPeople(req, res) {
+        var nameToFind = req.query.name;
+
+        dbHandler.searchPeople(nameToFind)
+            .then((people) => { res.send(people) });
+    }
+
+    function getPopularPeople(req, res) {
+        dbHandler.getPopularPeople()
+            .then(function (results) {
+                res.send(results);
+            });
+    }
+
+    function gerPersonById(req, res) {
+        dbHandler.getPerson(req.params['id'])
+            .then(function (doc) {
+                res.send(doc);
+            });
+    }
+
+    function getFollowees(req, res) {
+        dbHandler.getFollowees(req.params['id'])
+            .then(function (followees) {
+                res.send(followees);
+            });
+
+    }
+
+    function getFollowers(req, res) {
+        dbHandler.getFollowers(req.params['id'])
+            .then(function (followers) {
+                res.send(followers);
+            });
+    }
+
+    function postPerson(req, res) {
         var user = {
             'name': req.body.name,
             'profilePicture': req.body.profilePicture,
-            'follows': [],
         };
-        db.collection('people').insert(user, function (err, result) {
-            console.log('created person with id ' + user._id);
+
+        dbHandler.insertPerson(user, function (err, result) {
             res.send(user._id)
         });
+    }
 
-    });
+    function postRecipe(req, res) {
+        var recipe = req.body;
 
-    app.post('/people/:id/follows', function (req, res) {
-        console.log(req.body.followeeId);
-        db.collection('people').update(
-            { '_id': ObjectId(req.params['id']) },
-            { '$addToSet': { 'follows': ObjectId(req.body.followeeId) } },
-            function (result)
-            { res.send(result) }
-        );
-    });
+        dbHandler.postRecipe(recipe, (error, result) => {
+            res.send(recipe._id);
+        });
+    }
 
-    var server = app.listen(8082, function () {
+    function addRecipeAuthor(req, res) {
+        dbHandler.addRecipeAuthor(req.params['id'], req.body.authorId)
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(201);
+                else
+                    res.sendStatus(501);
+            })
+    }
+
+    function addRecipeComment(req, res) {
+        dbHandler.addComment(req.params['id'], req.body.author, req.body.content)
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(201);
+                else
+                    res.sendStatus(501);
+            })
+    }
+
+    function likeRecipe(req, res) {
+        dbHandler.likeRecipe(req.params['id'], req.body.likerId)
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(201);
+                else
+                    res.sendStatus(501);
+            })
+    }
+
+    function followPerson(req, res) {
+        dbHandler.follow(req.params['id'], req.body.followeeId)
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(204);
+                else
+                    res.sendStatus(501)
+            });
+    }
+
+    function updateRecipeContent(req, res) {
+        console.log(req.body.content);
+        dbHandler.updateRecipe(req.params['id'], req.body.content)
+            .then(result => {
+                if (result == 1)
+                    res.sendStatus(204)
+                else
+                    res.sendStatus(501)
+            })
+    }
+
+    function deleteRecipe(req, res) {
+        dbHandler.deleteRecipe(req.params['id'])
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(204)
+                else
+                    res.sendStatus(501)
+            });
+
+    }
+
+    function unfollow(req, res) {
+        dbHandler.unfollow(req.params['followerId'], req.params['followeeId'])
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.sendStatus(501)
+            });
+    }
+
+    function unlike(req, res) {
+        dbHandler.unlikeRecipe(req.params['recipeId'], req.params['likerId'])
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.sendStatus(501)
+            });
+    }
+
+    function removeAuthor(req, res) {
+        dbHandler.removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
+            .then((result) => {
+                if (result == 1)
+                    res.sendStatus(200);
+                else
+                    res.send(result)
+            });
+    }
+
+
+    var server = app.listen(8081, function () {
         var host = server.address().address
         var port = server.address().port
 
         console.log("Example app listening at http://%s:%s", host, port)
     })
 });
-
-
-
-function Recipe(id, title, author, authorId, profilePicture, previewPicture, content) {
-    this._id = id;
-    this.title = title;
-    this.author = author;
-    this.authorId = authorId;
-    this.profilePicture = profilePicture;
-    this.previewPicture = previewPicture;
-    this.content = content;
-}
-
