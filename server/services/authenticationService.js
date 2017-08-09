@@ -1,8 +1,5 @@
 function authenticationService(db) {
-    this.db = db;
-    this.collection = function (name) {
-        return this.db.collection(name);
-    }
+    require('./mongoService.js').mongoService.call(this, db);
 
     var service = this;    
 
