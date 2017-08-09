@@ -1,5 +1,5 @@
 app.service('apiService', ['$http', function($http) {
-    this.serverUrl = 'http://localhost:8081/';
+    this.serverUrl = 'http://localhost:8082/';
 
     this.getItem = function(itemType, itemId){
         switch(itemType.toLowerCase())  {

@@ -14,7 +14,7 @@ mongoClient.connect(mongoUrl, function (error, db) {
 
 
     // Add headers
-    app.use(function (req, res, next) {
+        app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,7 +45,7 @@ mongoClient.connect(mongoUrl, function (error, db) {
     }));
 
     app.get('/', function (req, res) {
-        res.send('Hello World');
+        res.send('wtf');
     })
 
     app.get('/recipes', function (req, res) {
@@ -119,7 +119,7 @@ mongoClient.connect(mongoUrl, function (error, db) {
         );
     });
 
-    var server = app.listen(8081, function () {
+    var server = app.listen(8082, function () {
         var host = server.address().address
         var port = server.address().port
 

@@ -9,6 +9,8 @@ app.directive('feed', function(){
             this.selectedItem = null;
             this.selectedItemType = null;
             this.mode = 'recipes';
+            this.editorShow=false;
+            this.menuShow=false;
 
             this.selectedPerson = null;
 
@@ -35,6 +37,12 @@ app.directive('feed', function(){
             {
                 this.selectedItem = null;
                 this.selectedItemType = null;
+            };
+
+
+            this.submit = function()
+            {
+                window.alert($scope.editor);
             };
 
         }],

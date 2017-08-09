@@ -41,3 +41,84 @@
 		top:-20px;
 		width: 100%;
 	}
+	.tableCell
+	{
+		display: table-cell !important;
+	}
+.btn-toolbar
+{
+	display: table !important;
+}
+
+.navbar
+{
+	display: block;
+}
+
+.backStyle
+{
+    background: #A1FFCE;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FAFFD1, #A1FFCE);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FAFFD1, #A1FFCE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.fontHeaderStyle {
+	font-size:50px;
+	font-family: unset;
+	font-weight: bold;
+	color: white !important;
+	text-shadow: -1px 0 black, 0 3px black, 2px 0 black, 0 -1px black !important;
+}
+
+.navbar-light
+{
+    background-color: rgb(168, 255, 206);
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 20px;
+	margin-bottom: 10px;
+}
+.point
+{
+	cursor: pointer;
+}
+
+.btn-default
+{
+	border-width: 1px !important;
+	border-color: black !important;
+	background-color: #e9f6f5 !important;
+	border-radius: 7px;
+	font-family: inherit;
+}
+
+
+.txtBox
+{
+    border-radius: 7px;
+    border-style: hidden;
+}
+
+.enterFont
+{
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.txtSighUp
+{
+    border-radius: 7px;
+    border-style: groove;
+    margin-bottom: 15px;
+}
+
+.btn{
+	padding:2px;
+}
+
+.list-group-item:hover
+{
+	background-color: azure;
+}
