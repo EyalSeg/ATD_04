@@ -165,6 +165,8 @@ mongoClient.connect(mongoUrl, function (error, db) {
         var user = {
             'name': req.body.name,
             'profilePicture': req.body.profilePicture,
+            'email': req.body.email.toLowerCase(),
+            'password': req.body.password
         };
 
         dbHandler.insertPerson(user, function (err, result) {
