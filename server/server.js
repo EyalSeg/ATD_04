@@ -52,84 +52,116 @@ mongoClient.connect(mongoUrl, function (error, db) {
         // TODO: Return index.html
     })
 
-    app.get('/recipes/latest', function (req, res) {
+    app.get('/recipes', searchRecipes);
+    app.get('/recipes/latest', getLatestRecipes);
+    app.get('/recipes/popular', getPopularRecipes);
 
+    app.get('/recipes/:id', getRecipeById);
+    app.get('/recipes/:id/likes', getRecipeLikes);
+    app.get('/recipes/:id/comments', getRecipeComments);
+
+    app.post('/recipes', postRecipe);
+    app.post('/recipes/:id/authors', addRecipeAuthor);
+    app.post('/recipes/:id/comments', addRecipeComment);
+    app.post('/recipes/:id/likes', likeRecipe);
+
+    app.put('/recipes/:id/content', updateRecipeContent);
+
+    app.delete('/recipes/:id', deleteRecipe);
+    app.delete('/recipes/:recipeId/likes/:likerId', unlike);
+    app.delete('/recipes/:recipeId/authors/:authorId', removeAuthor);
+
+
+
+    app.get('/people', searchPeople);
+    app.get('/people/popular', getPopularPeople);
+
+    app.get('/people/:id', gerPersonById);
+    app.get('/people/:id/follows', getFollowees);
+    app.get('/people/:id/followers', getFollowers);
+
+    app.post('/people', postPerson);
+    app.post('/people/:id/follows', followPerson);
+
+    app.delete('/people/:followerId/follows/:followeeId', unfollow);
+
+
+
+    function getLatestRecipes(req, res) {
         var requesterId = req.query.requesterId;
 
         dbHandler.getLatestRecipes(requesterId)
             .then(function (results) {
                 res.send(results);
             });
-    });
+    }
 
-    app.get('/recipes/popular', function (req, res) {
-
+    function getPopularRecipes(req, res) {
         dbHandler.getPopularRecipes()
             .then(function (results) {
                 res.send(results);
             });
-    });
+    }
 
-    app.get('/recipes', function (req, res) {
+    function searchRecipes(req, res) {
         var searchTerm = req.query.query;
 
         dbHandler.searchRecipes(searchTerm)
             .then((results) => res.send(results));
-    });
+    }
 
-    app.get('/recipes/:id', function (req, res) {
+    function getRecipeById(req, res) {
         dbHandler.getRecipe(req.params['id'])
             .then((recipe) => { res.send(recipe) });
-    });
+    }
 
-    app.get('/recipes/:id/likes', function (req, res) {
+    function getRecipeLikes(req, res) {
         dbHandler.getLikes(req.params['id'])
             .then((recipe) => { res.send(recipe) });
-    });
+    }
 
-    app.get('/recipes/:id/comments', function (req, res) {
+    function getRecipeComments(req, res) {
         dbHandler.getComments(req.params['id'])
             .then((recipe) => { res.send(recipe) });
-    });
+    }
 
-    app.get('/people', function (req, res) {
+    function searchPeople(req, res) {
         var nameToFind = req.query.name;
 
         dbHandler.searchPeople(nameToFind)
             .then((people) => { res.send(people) });
-    });
+    }
 
-    app.get('/people/popular', function (req, res) {
+    function getPopularPeople(req, res) {
         dbHandler.getPopularPeople()
             .then(function (results) {
                 res.send(results);
             });
-    });
+    }
 
-    app.get('/people/:id', function (req, res) {
+    function gerPersonById(req, res) {
         dbHandler.getPerson(req.params['id'])
             .then(function (doc) {
                 res.send(doc);
             });
-    });
+    }
 
-    app.get('/people/:id/follows', function (req, res) {
+    function getFollowees(req, res) {
         dbHandler.getFollowees(req.params['id'])
             .then(function (followees) {
                 res.send(followees);
             });
 
-    });
+    }
 
-    app.get('/people/:id/followers', function (req, res) {
+    function getFollowers(req, res) {
         dbHandler.getFollowers(req.params['id'])
             .then(function (followers) {
                 res.send(followers);
             });
+    }
 
-    });
-
-    app.post('/people', function (req, res) {
+    function postPerson(req, res) {
         var user = {
             'name': req.body.name,
             'profilePicture': req.body.profilePicture,
@@ -138,18 +170,17 @@ mongoClient.connect(mongoUrl, function (error, db) {
         dbHandler.insertPerson(user, function (err, result) {
             res.send(user._id)
         });
-    });
+    }
 
-    app.post('/recipes', function (req, res) {
-
+    function postRecipe(req, res) {
         var recipe = req.body;
 
         dbHandler.postRecipe(recipe, (error, result) => {
             res.send(recipe._id);
         });
-    });
+    }
 
-    app.post('/recipes/:id/authors', function (req, res) {
+    function addRecipeAuthor(req, res) {
         dbHandler.addRecipeAuthor(req.params['id'], req.body.authorId)
             .then((result) => {
                 if (result == 1)
@@ -157,9 +188,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501);
             })
-    });
+    }
 
-    app.post('/recipes/:id/comments', function (req, res) {
+    function addRecipeComment(req, res) {
         dbHandler.addComment(req.params['id'], req.body.author, req.body.content)
             .then((result) => {
                 if (result == 1)
@@ -167,9 +198,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501);
             })
-    })
+    }
 
-    app.post('/recipes/:id/likes', function (req, res) {
+    function likeRecipe(req, res) {
         dbHandler.likeRecipe(req.params['id'], req.body.likerId)
             .then((result) => {
                 if (result == 1)
@@ -177,9 +208,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501);
             })
-    })
+    }
 
-    app.post('/people/:id/follows', function (req, res) {
+    function followPerson(req, res) {
         dbHandler.follow(req.params['id'], req.body.followeeId)
             .then((result) => {
                 if (result == 1)
@@ -187,9 +218,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501)
             });
-    });
+    }
 
-    app.put('/recipes/:id/content', function (req, res) {
+    function updateRecipeContent(req, res) {
         console.log(req.body.content);
         dbHandler.updateRecipe(req.params['id'], req.body.content)
             .then(result => {
@@ -198,9 +229,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501)
             })
-    })
+    }
 
-    app.delete('/recipes/:id', function (req, res) {
+    function deleteRecipe(req, res) {
         dbHandler.deleteRecipe(req.params['id'])
             .then((result) => {
                 if (result == 1)
@@ -209,9 +240,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                     res.sendStatus(501)
             });
 
-    })
+    }
 
-    app.delete('/people/:followerId/follows/:followeeId', function (req, res) {
+    function unfollow(req, res) {
         dbHandler.unfollow(req.params['followerId'], req.params['followeeId'])
             .then((result) => {
                 if (result == 1)
@@ -219,9 +250,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501)
             });
-    })
+    }
 
-    app.delete('/recipes/:recipeId/likes/:likerId', function (req, res) {
+    function unlike(req, res) {
         dbHandler.unlikeRecipe(req.params['recipeId'], req.params['likerId'])
             .then((result) => {
                 if (result == 1)
@@ -229,9 +260,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.sendStatus(501)
             });
-    })
+    }
 
-    app.delete('/recipes/:recipeId/authors/:authorId', function (req, res) {
+    function removeAuthor(req, res) {
         dbHandler.removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
             .then((result) => {
                 if (result == 1)
@@ -239,7 +270,8 @@ mongoClient.connect(mongoUrl, function (error, db) {
                 else
                     res.send(result)
             });
-    });
+    }
+
 
     var server = app.listen(8081, function () {
         var host = server.address().address
@@ -248,16 +280,3 @@ mongoClient.connect(mongoUrl, function (error, db) {
         console.log("Example app listening at http://%s:%s", host, port)
     })
 });
-
-
-
-function Recipe(id, title, author, authorId, profilePicture, previewPicture, content) {
-    this._id = id;
-    this.title = title;
-    this.author = author;
-    this.authorId = authorId;
-    this.profilePicture = profilePicture;
-    this.previewPicture = previewPicture;
-    this.content = content;
-}
-
