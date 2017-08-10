@@ -31,13 +31,13 @@
     </div>
 </div>
 
-    <div  class = "col-md-5" style="padding-left: 40px;">
+    <div  class = "col-md-4" style="padding-left: 40px;">
         <img ng-src={{person.profilePicture}} class="rounded-circle img-fluid"  >
         <label class ="enterFont">stavik94</label>
         <div ng-hide="feed.menuShow" class="list-group">
             <a  class="list-group-item" ng-click='feed.editorShow= !feed.editorShow; feed.menuShow=!feed.menuShow' >Add Recipe</a>
             <a class="list-group-item">My Profile</a>
-            <a  class="list-group-item">My Recipes</a>
+            <a  class="list-group-item" >My Recipes</a>
         </div>
       <text-angular ng-show='feed.editorShow==true' ng-model="editor" class="tableCell"></text-angular>
         <button ng-show='feed.editorShow==true' class="btn-default" ng-click="feed.submit()">submit</button>
@@ -45,15 +45,34 @@
         <div ta-bind ng-model="editor"></div>
 
     </div>
-    <div class = "col-md-7 text-center">
+
+    <div  class = "col-md-4" >
+        <label class ="enterFont">Popular People</label>
+        <div style=" overflow: scroll; height: 20%;">
+        <li   class="list-group-item" ng-repeat="person in popularPeople">
+            <person-preview person="person"></person-Preview>
+        </li>
+        </div>
+    </div>
+
+    <div  class = "col-md-4" >
+        <label class ="enterFont">Popular Recipes</label>
+        <div style=" overflow: scroll; height: 20%;">
+            <li   class="list-group-item" ng-repeat="recipe in popularRecipes">
+                <recipe-preview recipe="recipe"></recipe-preview>
+            </li>
+        </div>
+    </div>
+
+    <div class = "col-md-8 text-center">
 
         <div class='container'>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-12">
                     <div ng-show='feed.selectedItem == null'>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'recipes'}" ng-click="feed.mode='recipes'">Recipes ({{(feed.items.recipes.length) || 0  }})</button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'people'}" ng-click="feed.mode='people'">People ({{(feed.items.people.length) || 0}})</button>
+                        <!--<button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'recipes'}" ng-click="feed.mode='recipes'">Recipes ({{(feed.items.recipes.length) || 0  }})</button>-->
+                        <!--<button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'people'}" ng-click="feed.mode='people'">People ({{(feed.items.people.length) || 0}})</button>-->
 
                         <ul class="list-group" >
                             <li class="list-group-item" ng-repeat="recipe in feed.items.recipes" ng-show="feed.mode =='recipes'">

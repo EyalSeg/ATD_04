@@ -52,6 +52,9 @@ mongoClient.connect(mongoUrl, function (error, db) {
         // TODO: Return index.html
     })
 
+    var authService = require('./services/authenticationService.js').getService(mongoClient)
+    app.use('/authentification', require('./controllers/authentification.js').getRouter(authService));
+    
     app.get('/recipes', searchRecipes);
     app.get('/recipes/latest', getLatestRecipes);
     app.get('/recipes/popular', getPopularRecipes);

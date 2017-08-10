@@ -11,7 +11,8 @@ app.directive('feed', function(){
             this.mode = 'recipes';
             this.editorShow=false;
             this.menuShow=false;
-
+            $scope.popularPeople=null;
+            $scope.popularRecipes=null;
             this.selectedPerson = null;
 
             this.selectItem = function(itemId, itemType){
@@ -33,17 +34,34 @@ app.directive('feed', function(){
 
             };
 
+            this.getPopularPeople = function(){
+
+                apiService.getPopularPeople()
+                    .then(function(response){
+                        if(response.data!=null)
+                            $scope.popularPeople = response.data;
+                    });
+
+            };
+            this.getPopularRecipes = function(){
+
+                apiService.getPopularRecipes()
+                    .then(function(response){
+                        if(response.data!=null)
+                            $scope.popularRecipes = response.data;
+                    });
+
+            };
             this.deselectItem = function()
             {
                 this.selectedItem = null;
                 this.selectedItemType = null;
             };
+            this.getPopularPeople();
+            this.getPopularRecipes();
 
 
-            this.submit = function()
-            {
-                window.alert($scope.editor);
-            };
+
 
         }],
         controllerAs: 'feed'

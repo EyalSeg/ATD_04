@@ -1,5 +1,5 @@
 app.service('apiService', ['$http', function($http) {
-    this.serverUrl = 'http://localhost:8082/';
+    this.serverUrl = 'http://localhost:8081/';
 
     this.getItem = function(itemType, itemId){
         switch(itemType.toLowerCase())  {
@@ -27,5 +27,13 @@ app.service('apiService', ['$http', function($http) {
     this.getPerson = function(id)
     {
         return $http.get(this.serverUrl + "people/" + id);
-    }
+    };
+    this.getPopularPeople = function()
+    {
+        return $http.get(this.serverUrl + "people/popular/" );
+    };
+    this.getPopularRecipes = function()
+    {
+        return $http.get(this.serverUrl + "recipes/popular/" );
+    };
 }]);
