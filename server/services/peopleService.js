@@ -11,7 +11,7 @@ function peopleService(db) {
 
     var service = this;
 
-   this.getPerson = function (id, projection = handler.personProjection) {
+   this.getPerson = function (id, projection = service.personProjection) {
         return service.collection('people').aggregate([
             { '$match': { '_id': ObjectId(id) } },
             service.addPersonFields,
