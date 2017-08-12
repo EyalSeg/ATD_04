@@ -1,7 +1,7 @@
 var express = require('express');
 
-exports.getRouter = function (service) {
-    var ctrl = new controller(service);
+exports.getRouter = function (services) {
+    var ctrl = new controller(services);
     var router = express.Router();
 
     router.get('/', ctrl.searchPeople);
@@ -10,6 +10,8 @@ exports.getRouter = function (service) {
     router.get('/:id', ctrl.gerPersonById);
     router.get('/:id/follows', ctrl.getFollowees);
     router.get('/:id/followers', ctrl.getFollowers);
+    router.get('/:id/recipes', ctrl.getPersonRecipes);
+
 
     router.post('', ctrl.postPerson);
     router.post('/:id/follows', ctrl.followPerson);
@@ -20,32 +22,40 @@ exports.getRouter = function (service) {
 }
 
 
-function controller(service) {
-    this.service = service;
-
+function controller(services) {
+    this.services = services;
+    
     this.searchPeople = function (req, res) {
         var nameToFind = req.query.name;
 
-        service.searchPeople(nameToFind)
+        services['people'].searchPeople(nameToFind)
             .then((people) => { res.send(people) });
     }
 
     this.getPopularPeople = function (req, res) {
-        service.getPopularPeople()
+        services['people'].getPopularPeople()
             .then(function (results) {
                 res.send(results);
             });
     }
 
     this.gerPersonById = function (req, res) {
-        service.getPerson(req.params['id'])
+        services['people'].getPerson(req.params['id'])
             .then(function (doc) {
                 res.send(doc);
             });
     }
 
+    this.getPersonRecipes = function(req, res){
+        services['recipes'].getPersonRecipes(req.params['id'])
+            .then(function (doc) {
+                res.send(doc);
+            });
+    }
+
+
     this.getFollowees = function (req, res) {
-        service.getFollowees(req.params['id'])
+        services['people'].getFollowees(req.params['id'])
             .then(function (followees) {
                 res.send(followees);
             });
@@ -53,7 +63,7 @@ function controller(service) {
     }
 
     this.getFollowers = function (req, res) {
-        service.getFollowers(req.params['id'])
+        services['people'].getFollowers(req.params['id'])
             .then(function (followers) {
                 res.send(followers);
             });
@@ -67,7 +77,7 @@ function controller(service) {
             'password': req.body.password
         };
 
-        service.insertPerson(user, function (err, result) {
+        services['people'].insertPerson(user, function (err, result) {
             if (err != null) {
                 res.status(409).send(err.message);
             }
@@ -78,7 +88,7 @@ function controller(service) {
 
 
     this.followPerson = function (req, res) {
-        service.follow(req.params['id'], req.body.followeeId)
+        services['people'].follow(req.params['id'], req.body.followeeId)
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(200);
@@ -89,7 +99,7 @@ function controller(service) {
 
 
     this.unfollow = function (req, res) {
-        service.unfollow(req.params['followerId'], req.params['followeeId'])
+        services['people'].unfollow(req.params['followerId'], req.params['followeeId'])
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(200);

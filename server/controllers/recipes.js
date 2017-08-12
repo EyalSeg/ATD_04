@@ -1,8 +1,8 @@
 var express = require('express');
 
 
-exports.getRouter = function (service) {
-    var ctrl = new controller(service);
+exports.getRouter = function (services) {
+    var ctrl = new controller(services);
     var router = express.Router();
 
     router.get('/', ctrl.searchRecipes);
@@ -27,21 +27,21 @@ exports.getRouter = function (service) {
     return router;
 }
 
-function controller(service) {
-    this.service = service;
+function controller(services) {
+    this.services = services;
 
 
     this.getLatestRecipes = function (req, res) {
         var requesterId = req.query.requesterId;
 
-        service.getLatestRecipes(requesterId)
+        services['recipes'].getLatestRecipes(requesterId)
             .then(function (results) {
                 res.send(results);
             });
     }
 
     this.getPopularRecipes = function (req, res) {
-        service.getPopularRecipes()
+        services['recipes'].getPopularRecipes()
             .then(function (results) {
                 res.send(results);
             });
@@ -50,35 +50,35 @@ function controller(service) {
     this.searchRecipes = function (req, res) {
         var searchTerm = req.query.query;
 
-        service.searchRecipes(searchTerm)
+        services['recipes'].searchRecipes(searchTerm)
             .then((results) => res.send(results));
     }
 
     this.getRecipeById = function (req, res) {
-        service.getRecipe(req.params['id'])
+        services['recipes'].getRecipe(req.params['id'])
             .then((recipe) => { res.send(recipe) });
     }
 
     this.getRecipeLikes = function (req, res) {
-        service.getLikes(req.params['id'])
+        services['recipes'].getLikes(req.params['id'])
             .then((recipe) => { res.send(recipe) });
     }
 
     this.getRecipeComments = function (req, res) {
-        service.getComments(req.params['id'])
+        services['recipes'].getComments(req.params['id'])
             .then((recipe) => { res.send(recipe) });
     }
 
     this.postRecipe = function (req, res) {
         var recipe = req.body;
 
-        service.postRecipe(recipe, (error, result) => {
+        services['recipes'].postRecipe(recipe, (error, result) => {
             res.send(result.insertedIds[0]);
         });
     }
 
     this.addRecipeAuthor = function (req, res) {
-        service.addRecipeAuthor(req.params['id'], req.body.authorId)
+        services['recipes'].addRecipeAuthor(req.params['id'], req.body.authorId)
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(201);
@@ -88,7 +88,7 @@ function controller(service) {
     }
 
     this.addRecipeComment = function (req, res) {
-        service.addComment(req.params['id'], req.body.author, req.body.content)
+        services['recipes'].addComment(req.params['id'], req.body.author, req.body.content)
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(201);
@@ -98,7 +98,7 @@ function controller(service) {
     }
 
     this.likeRecipe = function (req, res) {
-        service.likeRecipe(req.params['id'], req.body.likerId)
+        services['recipes'].likeRecipe(req.params['id'], req.body.likerId)
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(201);
@@ -110,7 +110,7 @@ function controller(service) {
 
     this.updateRecipeContent = function (req, res) {
         console.log(req.body.content);
-        service.updateRecipe(req.params['id'], req.body.content)
+        services['recipes'].updateRecipe(req.params['id'], req.body.content)
             .then(result => {
                 if (result == 1)
                     res.sendStatus(204)
@@ -120,7 +120,7 @@ function controller(service) {
     }
 
     this.deleteRecipe = function (req, res) {
-        service.deleteRecipe(req.params['id'])
+        services['recipes'].deleteRecipe(req.params['id'])
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(204)
@@ -132,7 +132,7 @@ function controller(service) {
 
 
     this.unlike = function (req, res) {
-        service.unlikeRecipe(req.params['recipeId'], req.params['likerId'])
+        services['recipes'].unlikeRecipe(req.params['recipeId'], req.params['likerId'])
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(200);
@@ -142,7 +142,7 @@ function controller(service) {
     }
 
     this.removeAuthor = function (req, res) {
-        service.removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
+        services['recipes'].removeRecipeAuthor(req.params['recipeId'], req.params['authorId'])
             .then((result) => {
                 if (result == 1)
                     res.sendStatus(200);
