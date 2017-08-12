@@ -51,13 +51,14 @@ mongoClient.connect(mongoUrl, function (error, db) {
         // TODO: Return index.html
     })
 
-    var authService = require('./services/authenticationService.js').getService(db)
-    var peopleService =  require('./services/peopleService.js').getService(db)
-    var recipesService =  require('./services/recipesService.js').getService(db, peopleService)
+    var services = [];
+    services['authentification'] =  require('./services/authenticationService.js').getService(db);
+    services['people'] = require('./services/peopleService.js').getService(db);
+    services['recipes'] = require('./services/recipesService.js').getService(db, services['people']);
 
-    app.use('/authentification', require('./controllers/authentification.js').getRouter(authService));
-    app.use('/people', require('./controllers/people.js').getRouter(peopleService));
-    app.use('/recipes', require('./controllers/recipes.js').getRouter(recipesService));
+    app.use('/authentification', require('./controllers/authentification.js').getRouter(services));
+    app.use('/people', require('./controllers/people.js').getRouter(services));
+    app.use('/recipes', require('./controllers/recipes.js').getRouter(services));
     
     var server = app.listen(8081, function () {
         var host = server.address().address

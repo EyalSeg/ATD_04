@@ -1,10 +1,10 @@
 var express = require('express');
-function controller(service) {
+function controller(services) {
     this.login = function (req, res) {
         var email = req.body.email.toLowerCase();
         var password = req.body.password;
 
-        service.login(email, password).then((result) => {
+        services['authentication'].login(email, password).then((result) => {
             if (result != null)
                 res.send(result);
             else
@@ -14,8 +14,8 @@ function controller(service) {
 
 }
 
-exports.getRouter = function (service) {
-    var ctrl = new controller(service);
+exports.getRouter = function (services) {
+    var ctrl = new controller(services);
     var router = express.Router();
 
     router.get('/', (req, res) => { res.send('hello!') });

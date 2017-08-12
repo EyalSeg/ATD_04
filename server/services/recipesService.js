@@ -94,7 +94,16 @@ function recipesService(db, peopleService) {
             })
     }
 
-    this.getPopularRecipes = function () {
+    this.getPopularRecipes = function (authorId) {
+        return service.collection('recipes').aggregate([
+            { '$match': { 'authors': { '$elemMatch': { '_id': ObjectId(authorId) } } } },
+            service.addRecipeFields,
+            { '$project': service.recipePreviewProjection },
+            { '$sort': { 'numOfLikes': -1 } }
+        ]).toArray();;
+    }
+
+    this.getPersonRecipes = function () {
         return service.collection('recipes').aggregate([
             service.addRecipeFields,
             { '$project': service.recipePreviewProjection },
