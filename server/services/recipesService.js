@@ -106,7 +106,7 @@ function recipesService(db, peopleService) {
          return service.collection('recipes').aggregate([
             { '$match': { 'authors': { '$elemMatch': { '_id': ObjectId(authorId) } } } },
             service.addRecipeFields,
-            { '$project': service.recipePreviewProjection },
+            { '$project': service.recipeProjection },
         ]).toArray();;
     }
 
