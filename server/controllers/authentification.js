@@ -4,7 +4,7 @@ function controller(services) {
         var email = req.body.email.toLowerCase();
         var password = req.body.password;
 
-        services['authentication'].login(email, password).then((result) => {
+        services['authentification'].login(email, password).then((result) => {
             if (result != null)
                 res.send(result);
             else
