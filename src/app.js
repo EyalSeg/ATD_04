@@ -5,12 +5,6 @@ var app = angular.module('main', ['textAngular', "ngRoute"]);
 
 app.config(function($routeProvider) {
     $routeProvider
-        .when("/", {
-        template : "<h1>Main</h1><p>Click on the links to change this content</p>"
-    })
-        .when("/banana", {
-        template : "<h1>Banana</h1><p>Bananas contain around 75% water.</p>"
-    })
         .when("/signIn", {
         templateUrl : "./Views/signIn.html",
         controller : 'signInController',
@@ -50,7 +44,7 @@ app.config(function($routeProvider) {
         },
         controllerAs:'controller'
     })
-    
+
         .when("/recipes/:recipeId", {
         templateUrl : "./Views/recipe.html",
         controller : 'recipeController',
@@ -70,8 +64,23 @@ app.config(function($routeProvider) {
         },
         controllerAs:'controller'
     })
-    
-    
+
+        .when('/search', {
+        template: '<search-results people="controller.people" recipes="controller.recipes">',
+        controller: function($scope, $routeParams, apiService){
+
+            var that = this;
+            var query = $routeParams.query;
+            
+            apiService.getPeople(query).then((results) => {
+                that.people = results});
+            apiService.getRecipes(query).then((results) => {
+                console.log(results)
+                that.recipes = results});
+        },
+        controllerAs:'controller'
+    })
+
         .when("/feed/popular", {
         template: '<search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, apiService){
@@ -84,5 +93,5 @@ app.config(function($routeProvider) {
                 that.recipes = results});
         },
         controllerAs:'controller'
-    })
+    });
 })

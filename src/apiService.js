@@ -13,7 +13,7 @@ app.service('apiService', ['$http', function($http) {
         if (name != '')
             query += '?query=' + name;
 
-        return $http.get(this.serverUrl + query);
+        return $http.get(this.serverUrl + query).then((res) => {return res.data});
     };
     
     this.getLatestRecipes = function(requesterId){
@@ -29,7 +29,7 @@ app.service('apiService', ['$http', function($http) {
         return $http.post(this.serverUrl + 'recipes/',recipe);
     };
     this.getPeople = function(name){
-        return $http.get(this.serverUrl + "people?name=" + name);
+        return $http.get(this.serverUrl + "people?name=" + name).then((res) => {return res.data});
     };
 
     this.getPopularPeople = function()

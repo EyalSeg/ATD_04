@@ -215,7 +215,7 @@ app.directive('personPreview', function () {
         }
     };
 });
-
+    
 
 app.directive('recipeEditor', function () {
     return {
