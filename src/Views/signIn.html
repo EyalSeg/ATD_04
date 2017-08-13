@@ -1,0 +1,21 @@
+<ul ng-click='contoller.toggle'>{{controller.toggleText}}</ul> 
+<div  ng-show="contoller.mode == 'login'" style="display: inline">
+        <label  class ="enterFont" style="padding-left: 25%;" for="name">Email:</label>
+        <input  class ="enterFont txtBox"  type="text" ng-model="signInUser.email"  id="name" name="lastname">
+        <label  class ="enterFont"   style="margin-left: 10px;" for="password">Password:</label>
+        <input class ="enterFont txtBox"  type="text" ng-model="signInUser.password" id="password" name="password">
+        <button class ="enterFont btn-default " style="margin-left: 10px;" ng-click="feed.signIn()">Sign in</button>
+</div>
+<div ng-show="contoller.mode == 'register'"  style="    padding-left: 20px;">
+    <label  style="font-size: 30px;" class ="enterFont">Sigh Up</label>
+    <br>
+     <input class ="enterFont txtSighUp"  ng-model="newUser.name" type="text" placeholder="Name" >
+        <br>
+        <input class ="enterFont txtSighUp" ng-model="newUser.profilePicture" type="text" placeholder="Profile Picture" >
+        <br>
+    <input class ="enterFont txtSighUp" ng-model="newUser.email" type="text" placeholder="Email" >
+    <br>
+    <input class ="enterFont txtSighUp"   ng-model="newUser.password" type="text"  placeholder="Password">
+    <br>
+    <button class ="enterFont btn-default " style="margin-left: 10px;" ng-click="feed.createNewPerson()">Create Account</button>
+    </div>
