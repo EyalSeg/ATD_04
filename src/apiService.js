@@ -53,7 +53,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.getPerson= function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id );
+        return $http.get(this.serverUrl + "people/"+id ).then((res) => {return res.data});
 
     };
 
@@ -78,7 +78,7 @@ app.service('apiService', ['$http', function($http) {
     }
     this.getRecipesById= function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id+"/recipes/");
+        return $http.get(this.serverUrl + "people/"+id+"/recipes/").then((res) => {return res.data});
     }
     this.gerPersonById= function(id)
     {

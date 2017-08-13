@@ -13,17 +13,6 @@ app.config(function($routeProvider) {
     .when("/banana", {
         templateUrl : "<h1>Banana</h1><p>Bananas contain around 75% water.</p>"
     })
-        .when("/editRecipe/:personId", {
-            templateUrl : "./Views/editRecipe.html",
-            controller : 'EditRecipeController',
-            controllerAs : 'EditRecipeController'
-        })
-
-        .when("/addRecipe/:personId", {
-            templateUrl : "./Views/addRecipe.html",
-            controller : 'AddRecipeController',
-            controllerAs : 'AddRecipeController'
-        })
 
         .when("/entrance/:personId", {
             templateUrl : "./Views/entrance.html",
