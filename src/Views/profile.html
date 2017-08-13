@@ -1,21 +1,22 @@
 <div class="container-fluid">
     <div class='row justify-content-center'>
         <div class='col'>
-                <img ng-src={{controller.profile.profilePicture}} class="rounded-circle img-fluid"  >
+                <img ng-src={{ProfileController.profile.profilePicture}} class="rounded-circle img-fluid"  >
         </div>
     </div>
     <div class='row justify-content-center'>
         <div class='col'>
-                <h3>{{controller.profile.name}}</h3>
+                <h3>{{ProfileController.profile.name}}</h3>
         </div>
     </div>
-    <div class='row justify-content-center' ng-click="controller.showFollowers()">
+    <div class='row justify-content-center' ng-click="ProfileController.showFollowers()">
         <div class='col'>
-            <p>{{controller.profile.numOfFollowers}} subscribers</p>
+            <p>{{ProfileController.profile.numOfFollowers}} subscribers</p>
         </div>
-        <div class='col' ng-click="controller.showFollowees()   ">
-            <p> follows {{controller.profile.numOfFollows}} </p>
+        <div class='col' ng-click="ProfileController.showFollowees()">
+            <p> follows {{ProfileController.profile.numOfFollows}} </p>
         </div>
+        <div ng-click="ProfileController.showRecipes()">Show recipes!</div>
     </div>
 
 </div>
