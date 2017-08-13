@@ -216,7 +216,7 @@ app.directive('personPreview', function () {
     };
 });
 
-app.directive('recipe', function () {
+/**app.directive('recipe', function () {
     return {
         restrict: 'E',
         templateUrl: 'recipe.html',
@@ -226,7 +226,7 @@ app.directive('recipe', function () {
             liked: '='
         }
     };
-});
+});**/
 
 app.directive('recipeEditor', function () {
     return {
