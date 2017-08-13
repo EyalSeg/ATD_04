@@ -144,8 +144,6 @@ function recipesService(db, peopleService) {
             { '_id': ObjectId(recipeId) },
             { '_id': 0, 'likes': 1 })
             .then((result) => {
-                console.log(result.length)
-                console.log(result[0])
                 var likeIds = result.likes.map((like) => ObjectId(like));
 
                 return service.people.getPeople(likeIds);

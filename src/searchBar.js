@@ -12,7 +12,6 @@ app.directive('searchBar', function(){
                 $scope.results = {};
 
                 apiService.getPeople(this.searchQuery).then(function(response){
-                    console.log('found ' + response.data.length + ' people');
                     $scope.results.people = response.data;
                 });
 
@@ -20,6 +19,28 @@ app.directive('searchBar', function(){
                     $scope.results.recipes = response.data;
                 });
             };
+            
+            this.getLatest = function(){
+                 $scope.results = {};
+
+
+                var requesterId = $scope.currentUser.id;
+                apiService.getLatestRecipes(requesterId).then(function(response){
+                    $scope.results.recipes = response.data;
+                });
+            }
+            
+            this.getPopular = function(){
+                 $scope.results = {};
+
+                apiService.getPopularPeople().then(function(response){
+                    $scope.results.people = response.data;
+                });
+
+                apiService.getPopularRecipes().then(function(response){
+                    $scope.results.recipes = response.data;
+                });
+            }
 
             this.searchQuery = "";
 

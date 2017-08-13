@@ -11,10 +11,14 @@ app.service('apiService', ['$http', function($http) {
     this.getRecipes = function(name){
         var query = 'recipes';
         if (name != '')
-            query += '?name=' + name;
+            query += '?query=' + name;
 
         return $http.get(this.serverUrl + query);
     };
+    
+    this.getLatestRecipes = function(requesterId){
+        return $http.get(this.serverUrl + 'recipes/latest?requesterId=' + requesterId);
+    }
 
     this.getRecipe = function(id){
         return $http.get(this.serverUrl + 'recipes/' + id);
