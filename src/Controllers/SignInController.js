@@ -1,4 +1,4 @@
-app.controller('SignInController', function($scope, $routeParams,  $location, apiService){
+app.controller('SignInController', function($scope, $routeParams,  $location, apiService, activeUserService){
     this.mode = "login";
     this.toggleText = "log in";
     $scope.newUser=null;
@@ -31,16 +31,17 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
     this.signIn = function () {
 
         apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
-            var id = response.data;
-            apiService.getPerson(id._id).then(function (response) {
-                $scope.currentUser = response.data;
-                $scope.currentUser.id = id._id;
-                if( $scope.currentUser!=undefined) {
-                    var earl = '/entrance.html/' + $scope.currentUser.id;
-                    $location.url(earl);
-                }
-                });
-            });
+
+            if (response.ok){
+                activeUserService.activeUserId = response.id;
+                $location.path('feed/latest')
+            }
+            else{
+                alert('error!')
+                //TODO 
+            }
+          
+        });
 
     };
 

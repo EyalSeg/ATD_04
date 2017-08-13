@@ -104,13 +104,23 @@ app.config(function($routeProvider) {
     })
 
         .when("/feed/popular", {
-        template: '{{contoller.people}}<search-results people="controller.people" recipes="controller.recipes">',
+        template: '<search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, apiService){
 
             var that = this;
             apiService.getPopularPeople().then((results) => {
                 that.people = results});
             apiService.getPopularRecipes().then((results) => {
+                that.recipes = results});
+        },
+        controllerAs:'controller'
+    })
+     .when("/feed/latest", {
+        template: '{{contoller.recipes}}<search-results recipes="controller.recipes"',
+        controller: function($scope, apiService, activeUserService){
+
+            var that = this;
+            apiService.getLatestRecipes(activeUserService.activeUserId).then((results) => {
                 that.recipes = results});
         },
         controllerAs:'controller'

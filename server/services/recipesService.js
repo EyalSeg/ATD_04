@@ -75,10 +75,10 @@ function recipesService(db, peopleService) {
     }
 
     this.getLatestRecipes = function (requesterId) {
-        return people.getFollowees(requesterId)
+        return service.people.getFolloweeIds(requesterId)
             .then(function (result) {
 
-                followeeIds = result.follows.map((id) => ObjectId(id));
+                followeeIds = result.map((id) => ObjectId(id));
 
                 return service.collection('recipes').aggregate([
                     {
