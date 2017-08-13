@@ -9,8 +9,10 @@ app.controller('profileController', function($scope, $routeParams, apiService){
 
     });
 
-    apiService.getFollowers(that.id)
-        .then((results) => {that.followers = results});  
+    apiService.getFollowers(id)
+        .then((results) => {
+        console.log(results);
+                that.followers = results});  
 });
 
 
