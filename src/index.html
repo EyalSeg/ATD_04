@@ -14,15 +14,20 @@
 
     <!-- in-house modules and shit -->
     <script type="text/javascript"  src="app.js"></script>
-    <script type="text/javascript"  src="apiService.js"></script>
     <script type="text/javascript"  src="feed.js"></script>
+    <script type="stylesheet"  src="feed.css"></script>
     <script type="text/javascript"  src="searchBar.js"></script>
+    <script type="text/javascript"  src="apiService.js"></script>
+    <script type="text/javascript"  src="activeUserService.js"></script>
+
+
     <script type="text/javascript"  src="Controllers/profileController.js"></script>
     <script type="text/javascript"  src="Controllers/RecipeController.js"></script>
     <script type="text/javascript"  src="Controllers/EntranceController.js"></script>
     <script type="text/javascript"  src="Controllers/SignInController.js"></script>
 
     <script type="text/javascript"  src="Directives/searchResults.js"></script>
+
 
     <!-- textEditor-->
     <link rel='stylesheet' href='dist\textAngular.css'>
@@ -35,9 +40,7 @@
     </head>
 
     <body ng-app="main" class="backStyle" >
-    <tabs ></tabs>
         <div ng-view></div>
-
     </body>
 
 </html>

@@ -1,33 +1,37 @@
 <div >
     <div class="card text-center">
         <div class="card-header" align="left">
-            <span ng-click="deselect=!deselect">[X]</span>
+            {{RecipeController.recipe.title}}
         </div>
         <div class="card-block">
             <div class="row">
                 <div class="col-md-4">
-                    <img ng-src={{controller.recipe.previewPicture}} class="media-object" style="width:60px">
+                    <img ng-src={{RecipeController.recipe.previewPicture}} class="media-object" style="width:60px">
                     <h3 ng-click="RecipeController.gotoLikes()">num of likes: {{RecipeController.recipe.numOfLikes}}</h3>
-                    <h2 ng-show="!liked" ng-click="add">
+                    <h3 ng-show="!liked" ng-click="add">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                    </h2>
-                    <h2 ng-show="liked" ng-click="remove">
+                    </h3>
+                    <h3 ng-show="liked" ng-click="remove">
                         <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    </h2>
-                    <h2 ng- show="RecipeController.isAuthor()" ng-click="RecipeController.editRecipe()" >
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </h2>
+                    </h3>
                 </div>
                 <div class="col-md-8">
-                    <h3 class="card-title"> {{RecipeController.recipe.title}}</h3>
-                    <h1> {{RecipeController.recipe.authors}}</h1>
-                    <h1> {{RecipeController.recipe.description}}</h1>
-                    <h1> {{RecipeController.recipe.ingredients}}</h1>
-                    <br>
-                    <div ta-bind ng-model=recipe.content></div>
+                    <h4 class="card-title"> {{RecipeController.recipe.title}}</h4>
+                    <p class="card-text">
+                        BLAH BLAH BLAH BLAH 
+                    </p>
                 </div>
             </div>
-
+        </div>
+        <div class='card-block' ng-repeat="comment in RecipeController.comments">
+            <div class='col-md-2'>
+                <img ng-src={{comment.author.profilePicture}} class="rounded-circle img-fluid"  >
+                <br/>
+                {{comment.author.name}}
+            </div>
+            <div class='col-md-10'>
+                {{comment.content}}
+            </div>
         </div>
     </div>
 </div>

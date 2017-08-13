@@ -1,7 +1,7 @@
 function peopleService(db) {
     require('./mongoService.js').mongoService.call(this, db);
     var ObjectId = this.ObjectId;
-    
+
     this.personCardProjection = { 'name': 1, 'profilePicture': 1 };
     this.personPreviewProjection = { 'name': 1, 'profilePicture': 1, 'numOfFollows': 1, 'numOfFollowers': 1 };
     this.personProjection = { 'name': 1, 'profilePicture': 1, 'numOfFollows': 1, 'numOfFollowers': 1 };
@@ -11,7 +11,7 @@ function peopleService(db) {
 
     var service = this;
 
-   this.getPerson = function (id, projection = service.personProjection) {
+    this.getPerson = function (id, projection = service.personProjection) {
         return service.collection('people').aggregate([
             { '$match': { '_id': ObjectId(id) } },
             service.addPersonFields,
@@ -20,15 +20,15 @@ function peopleService(db) {
             .limit(1).toArray().then((array) => array[0]);
     }
 
-    this.getPersonPreview = function(id){
+    this.getPersonPreview = function (id) {
         return service.getPerson(id, service.personPreviewProjection);
     }
 
-    this.getPersonCard = function(id){
+    this.getPersonCard = function (id) {
         return service.collection('people').find(
-            {'_id': ObjectId(id)},
+            { '_id': ObjectId(id) },
             service.personCardProjection
-        ).toArray().then((array) => {return array[0]});
+        ).toArray().then((array) => { return array[0] });
     }
 
     this.getPeople = function (ids, projection = service.personPreviewProjection) {
@@ -40,7 +40,7 @@ function peopleService(db) {
             .toArray();
     }
 
-    this.getPeopleCards = function(ids){
+    this.getPeopleCards = function (ids) {
         return service.collection('people').find(
             { '_id': { '$in': ids } },
             service.personCardProjection)
@@ -48,14 +48,21 @@ function peopleService(db) {
     }
 
     this.getFollowees = function (followerId) {
+        return service.getFolloweeIds(followerId).then((ids) => {
+            ids = ids.follows.map((id) => ObjectId(id));
+            return service.getPeople(followeeIds, service.personPreviewProjection)
+
+        })
+    }
+
+    this.getFolloweeIds = function (followerId) {
         return service.collection('people').findOne(
             { '_id': ObjectId(followerId) },
             { '_id': 0, 'follows': 1 }
         )
             .then((results => {
                 console.log('found ' + results.follows + ' followees')
-                followeeIds = results.follows.map((id) => ObjectId(id));
-                return service.getPeople(followeeIds, service.personPreviewProjection)
+                return results.follows;
             }));
     }
 
