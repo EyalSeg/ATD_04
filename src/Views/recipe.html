@@ -7,19 +7,24 @@
             <div class="row">
                 <div class="col-md-4">
                     <img ng-src={{controller.recipe.previewPicture}} class="media-object" style="width:60px">
-                    <h3 ng-click="controller.showLikes()">num of likes: {{controller.recipe.numOfLikes}}</h3>
-                    <h3 ng-show="!liked" ng-click="add">
+                    <h2 ng-click="controller.showLikes()">num of likes: {{controller.recipe.numOfLikes}}</h2>
+                    <h2 ng-show="!liked" ng-click="add">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                    </h3>
-                    <h3 ng-show="liked" ng-click="remove">
+                    </h2>
+                    <h2 ng-show="liked" ng-click="remove">
                         <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    </h3>
+                    </h2>
+                    <h2 ng- show="RecipeController.isAuthor()" ng-click="RecipeController.editRecipe()" >
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </h2>
                 </div>
                 <div class="col-md-8">
-                    <h4 class="card-title"> {{recipe.title}}</h4>
-                    <p class="card-text">
-                        BLAH BLAH BLAH BLAH 
-                    </p>
+                    <h3 class="card-title"> {{recipe.title}}</h3>
+                    <h1> {{recipe.authors}}</h1>
+                    <h1> {{recipe.description}}</h1>
+                    <h1> {{recipe.ingredients}}</h1>
+                    <br>
+                    <div ta-bind ng-model=recipe.content></div>
                 </div>
             </div>
 

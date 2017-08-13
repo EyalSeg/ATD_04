@@ -6,4 +6,10 @@ app.controller('RecipeController', function($scope,$routeParams, apiService){
         that.recipe = results;
         
     });
+
+    this.isAuthor =function()
+    {};
+
+    this.editRecipe= function()
+    {};
 });

@@ -1,9 +1,9 @@
-app.controller('SignInController', function($scope, $routeParams,  $location, apiService){
+app.controller('SignInController', function($scope, $rootScope, $routeParams,  $location, apiService){
     this.mode = "login";
     this.toggleText = "log in";
     $scope.newUser=null;
     $scope.currentUser=null;
-
+    $rootScope=
     this.toggle = function(){
         if (this.mode =='login'){
             this.mode == 'register'
@@ -16,12 +16,12 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
     };
 
     this.createNewPerson = function () {
-        if ($scope.newUser.profilePicture != null) {
-            apiService.postPerson($scope.newUser).then(function (response) {
-                $scope.currentUser = $scope.newUser;
-                $scope.currentUser.id=response.data;
+        if ($rootScope.newUser.profilePicture != null) {
+            apiService.postPerson($rootScope.newUser).then(function (response) {
+                $rootScope.currentUser = $rootScope.newUser;
+                $rootScope.currentUser.id=response.data;
                 if( $scope.currentUser!=undefined) {
-                    var earl = '/entrance.html/' + $scope.currentUser.id;
+                    var earl = '/entrance.html/' + $rootScope.currentUser.id;
                     $location.url(earl);
                 }
             });
@@ -30,13 +30,13 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
     };
     this.signIn = function () {
 
-        apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
+        apiService.signIn($rootScope.signInUser.email, $rootScope.signInUser.password).then(function (response) {
             var id = response.data;
             apiService.getPerson(id._id).then(function (response) {
-                $scope.currentUser = response.data;
-                $scope.currentUser.id = id._id;
-                if( $scope.currentUser!=undefined) {
-                    var earl = '/entrance/' + $scope.currentUser.id;
+                $rootScope.currentUser = response.data;
+                $rootScope.currentUser.id = id._id;
+                if( $rootScope.currentUser!=undefined) {
+                    var earl = '/entrance/' + $rootScope.currentUser.id;
                     $location.url(earl);
                 }
                 });
