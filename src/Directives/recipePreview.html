@@ -1,0 +1,26 @@
+<div class="media">
+    <div class="media-left media-top">
+        <img ng-src={{recipe.profilePicture}} class="media-object" style="width:60px">
+    </div>
+    <div class='media-body'>
+        <div class='media-heading'>
+            <h3>{{recipe.author}}</h3>
+        </div>
+        <div >
+            <div ng-click="feed.selectItem(recipe.id)" class="cuadro_intro_hover " style="background-color:#cccccc; ">
+                <p style="text-align:center;">
+                    <img ng-src="{{recipe.previewPicture}}" class='img-fluid'>
+                </p>
+                <div class="caption">
+                    <div class="blur"></div>
+                    <div class="caption-text">
+                        <h3 style="border-top:0px solid white; border-bottom:2px solid white; padding:30px;">{{recipe.title}}</h3>
+                        <p>{{recipe.content}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -13,7 +13,7 @@ app.service('apiService', ['$http', function($http) {
         if (name != '')
             query += '?query=' + name;
 
-        return $http.get(this.serverUrl + query);
+        return $http.get(this.serverUrl + query).then((res) => {return res.data});
     };
     
     this.getLatestRecipes = function(requesterId){
@@ -29,16 +29,16 @@ app.service('apiService', ['$http', function($http) {
         return $http.post(this.serverUrl + 'recipes/',recipe);
     };
     this.getPeople = function(name){
-        return $http.get(this.serverUrl + "people?name=" + name);
+        return $http.get(this.serverUrl + "people?name=" + name).then((res) => {return res.data});
     };
 
     this.getPopularPeople = function()
     {
-        return $http.get(this.serverUrl + "people/popular/" );
+        return $http.get(this.serverUrl + "people/popular/" ).then((res) => {return res.data});
     };
     this.getPopularRecipes = function()
     {
-        return $http.get(this.serverUrl + "recipes/popular/" );
+        return $http.get(this.serverUrl + "recipes/popular/" ).then((res) => {return res.data});
     };
 
     this.postPerson= function(user)
@@ -59,12 +59,12 @@ app.service('apiService', ['$http', function($http) {
 
     this.getFollowees=function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id+"/follows/");
+        return $http.get(this.serverUrl + "people/"+id+"/follows/").then((res) => {return res.data});
 
     };
     this.getFollowers=function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id+"/followers/");
+        return $http.get(this.serverUrl + "people/"+id+"/followers/").then((res) => {return res.data});
     };
 
     this.follow= function(id, followId)
@@ -74,7 +74,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.getLikes= function(id)
     {
-        return $http.get(this.serverUrl + "recipes/"+id+"/likes/");
+        return $http.get(this.serverUrl + "recipes/"+id+"/likes/").then((res) => {return res.data});
     }
     this.getRecipesById= function(id)
     {
