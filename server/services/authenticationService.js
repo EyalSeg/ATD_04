@@ -10,6 +10,7 @@ function authenticationService(db) {
         },
             { '_id': 1 })
             .toArray().then((resultsArray) =>{
+            console.log(resultsArray.length);
                 if (resultsArray.length == 1)
                     return resultsArray[0];
                 else
