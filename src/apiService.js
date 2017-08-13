@@ -74,7 +74,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.getLikes= function(id)
     {
-        return $http.get(this.serverUrl + "recipes/"+id+"/likes/");
+        return $http.get(this.serverUrl + "recipes/"+id+"/likes/").then((res) => {return res.data});
     }
     this.getRecipesById= function(id)
     {

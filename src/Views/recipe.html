@@ -6,8 +6,8 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-4">
-                    <img ng-src={{recipe.previewPicture}} class="media-object" style="width:60px">
-                    <h3>num of likes: {{recipe.numOfLikes}}</h3>
+                    <img ng-src={{controller.recipe.previewPicture}} class="media-object" style="width:60px">
+                    <h3 ng-click="controller.showLikes()">num of likes: {{controller.recipe.numOfLikes}}</h3>
                     <h3 ng-show="!liked" ng-click="add">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                     </h3>

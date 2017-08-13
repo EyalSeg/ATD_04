@@ -11,6 +11,9 @@ app.controller('profileController', function($scope, $routeParams, $location, ap
     this.showFollowees = function(){
         $location.path('/people/'+this.id+'/follows')
     }
+    this.showFollowers = function(){
+        $location.path('/people/'+this.id+'/followers')
+    }
 });
 
 

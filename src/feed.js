@@ -216,17 +216,6 @@ app.directive('personPreview', function () {
     };
 });
 
-/**app.directive('recipe', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'recipe.html',
-        scope: {
-            recipe: '=',
-            deselect: '=',
-            liked: '='
-        }
-    };
-});**/
 
 app.directive('recipeEditor', function () {
     return {

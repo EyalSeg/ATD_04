@@ -1,9 +1,14 @@
-app.controller('recipeController', function($scope,$routeParams, apiService){
-     var that = this;
-    var id = $routeParams.recipeId;
-    
-    apiService.getRecipe(id).then((results) => {
+app.controller('recipeController', function($scope,$routeParams,$location, apiService){
+    var that = this;
+    this.id = $routeParams.recipeId;
+
+    apiService.getRecipe(this.id).then((results) => {
         that.recipe = results;
-        
+
     });
+
+    this.showLikes = function()
+    {
+          $location.path('/recipes/'+this.id+'/likes')
+    }
 });

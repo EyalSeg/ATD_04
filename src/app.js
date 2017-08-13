@@ -21,7 +21,7 @@ app.config(function($routeProvider) {
         controller : 'profileController',
         controllerAs : 'controller'
     })
-    
+
         .when("/people/:personId/follows", {
         template: '<search-results people="controller.followees">',
         controller: function($scope, $routeParams, apiService){
@@ -29,19 +29,48 @@ app.config(function($routeProvider) {
             var that = this;
             var personId = $routeParams.personId
             this.followees = {}
-            
+
             apiService.getFollowees(personId).then((results) => {
                 that.followees = results});
-     
+
         },
         controllerAs:'controller'
     })
+        .when("/people/:personId/followers", {
+        template: '<search-results people="controller.followers">',
+        controller: function($scope, $routeParams, apiService){
 
+            var that = this;
+            var personId = $routeParams.personId
+            this.followees = {}
+
+            apiService.getFollowers(personId).then((results) => {
+                that.followers = results});
+
+        },
+        controllerAs:'controller'
+    })
+    
         .when("/recipes/:recipeId", {
         templateUrl : "./Views/recipe.html",
         controller : 'recipeController',
         controllerAs : 'controller'
+    }) 
+        .when("/recipes/:recipeId/likes", {
+        template: '<search-results people="controller.likes">',
+        controller: function($scope, $routeParams, apiService){
+
+            var that = this;
+            var recipeId = $routeParams.recipeId
+            this.followees = {}
+
+            apiService.getLikes(recipeId).then((results) => {
+                that.likes = results});
+
+        },
+        controllerAs:'controller'
     })
+    
     
         .when("/feed/popular", {
         template: '<search-results people="controller.people" recipes="controller.recipes">',
