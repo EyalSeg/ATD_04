@@ -7,23 +7,26 @@
             <a class="headerStyle fontHeaderStyle paddingI">I</a>
             <i class="fa fa-heart-o fa-3x " aria-hidden="true"></i>
             <a class=" headerStyle fontHeaderStyle" > it</a>
-
-            <search-bar  ng-show="currentUser!=null" results="feed.items"></search-bar>
         </nav>
-
-    </div>
-
-    <div  ng-show="currentUser!=null" class = "col-md-4" style="padding-left: 40px;">
-        <img ng-src={{currentUser.profilePicture}} class="media-object"  style="width: 64px;
-    height: 64px; border-color: aquamarine;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    border-style: double;">
-        <label class ="enterFont">{{currentUser.name}}</label>
-        <div  class="list-group">
-            <a  class="list-group-item" ng-click='' >Add Recipe</a>
-            <a class="list-group-item" ng-click='' >My Follow Info</a>
-            <a  class="list-group-item" ng-click='' >My Recipes</a>
+        <div  style="display: inline">
+            <label  class ="enterFont" style="padding-left: 25%;" for="name">Email:</label>
+            <input  class ="enterFont txtBox"  type="text" ng-model="signInUser.email"  id="name" name="lastname">
+            <label  class ="enterFont"   style="margin-left: 10px;" for="password">Password:</label>
+            <input class ="enterFont txtBox"  type="text" ng-model="signInUser.password" id="password" name="password">
+            <button class ="enterFont btn-default " style="margin-left: 10px;" ng-click="SignInController.signIn()">Sign in</button>
         </div>
+
     </div>
+<div  style="padding-left: 20px;">
+    <label  style="font-size: 30px;" class ="enterFont">Sign Up</label>
+    <br>
+    <input class ="enterFont txtSighUp"  ng-model="newUser.name" type="text" placeholder="Name" >
+    <br>
+    <input class ="enterFont txtSighUp" ng-model="newUser.profilePicture" type="text" placeholder="Profile Picture" >
+    <br>
+    <input class ="enterFont txtSighUp" ng-model="newUser.email" type="text" placeholder="Email" >
+    <br>
+    <input class ="enterFont txtSighUp"   ng-model="newUser.password" type="text"  placeholder="Password">
+    <br>
+    <button class ="enterFont btn-default " style="margin-left: 10px;" ng-click="SignInController.createNewPerson()">Create Account</button>
 </div>

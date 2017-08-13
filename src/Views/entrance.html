@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="feed.css">dddddd
+<div class="row">
+    <div class="col-md-5"></div>
+    <div class="col-md-12">
+        <nav class="navbar navbar-light" >
+
+            <a class="headerStyle fontHeaderStyle paddingI">I</a>
+            <i class="fa fa-heart-o fa-3x " aria-hidden="true"></i>
+            <a class=" headerStyle fontHeaderStyle" > it</a>
+
+            <search-bar  ng-show="currentUser!=null" results="feed.items"></search-bar>
+        </nav>
+
+    </div>
+
+    <div  ng-show="currentUser!=null" class = "col-md-4" style="padding-left: 40px;">
+        <img ng-src={{currentUser.profilePicture}} class="media-object"  style="width: 64px;
+    height: 64px; border-color: aquamarine;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    border-style: double;">
+        <label class ="enterFont">{{currentUser.name}}</label>
+        <div  class="list-group">
+            <a  class="list-group-item" ng-click='' >Add Recipe</a>
+            <a class="list-group-item" ng-click='' >My Follow Info</a>
+            <a  class="list-group-item" ng-click='' >My Recipes</a>
+        </div>
+    </div>
+</div>

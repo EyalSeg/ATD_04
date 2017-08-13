@@ -3,6 +3,20 @@ app.directive('feed', function () {
         restrict: 'E',
         templateUrl: 'feed.html',
         controller: ['$scope', 'apiService', function ($scope, apiService) {
+            this.mode = "login";
+            this.toggleText = "register"
+
+            this.toggle = function(){
+                if (this.mode =='login'){
+                    this.mode == 'register'
+                    this.toggleText = 'log in';
+                }
+                else if (this.mode == 'register'){
+                    this.mode == "login";
+                    this.toggleText = 'register';
+                }
+            }
+
 
             var that = this; // HURR DURR
             this.items = [];
@@ -238,6 +252,8 @@ app.directive('recipeEditor', function () {
         }
     };
 });
+
+
 
 
 app.directive('person', function () {

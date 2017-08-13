@@ -1,0 +1,150 @@
+<link rel="stylesheet" href="feed.css">
+<div class="row">
+<div class="col-md-5"></div>
+<div class="col-md-12">
+<nav class="navbar navbar-light" >
+
+    <a class="headerStyle fontHeaderStyle paddingI">I</a>
+    <i class="fa fa-heart-o fa-3x " aria-hidden="true"></i>
+    <a class=" headerStyle fontHeaderStyle" > it</a>
+   
+    <search-bar  ng-show="currentUser!=null" results="feed.items"></search-bar>
+</nav>
+    
+</div>
+
+    <div  ng-show="currentUser!=null" class = "col-md-4" style="padding-left: 40px;">
+        <img ng-src={{currentUser.profilePicture}} class="media-object"  style="width: 64px;
+    height: 64px; border-color: aquamarine;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    border-style: double;">
+        <label class ="enterFont">{{currentUser.name}}</label>
+        <div ng-hide="feed.menuShow" class="list-group">
+            <a  class="list-group-item" ng-click='feed.editorShow= !feed.editorShow;' >Add Recipe</a>
+            <a class="list-group-item" ng-click=' feed.getProfile=!feed.getProfile; feed.getFollowers();feed.getFollowees()' >My Profile</a>
+            <a  class="list-group-item" ng-click="feed.getUserRecipes(); feed.showMyRecipies=! feed.showMyRecipies" >My Recipes</a>
+        </div>
+    </div>
+    <div ng-show="feed.showMyRecipies" class = "col-md-8" >
+        <label  class ="enterFont">Your Recipes:</label>
+        <div class = "col-md-6">
+        <div   style=" overflow: scroll; max-height: 40%;">
+            <li class="list-group-item " ng-repeat="recipe in currentUser.myRecipes" >
+                <recipe-preview recipe="recipe" ng-click="currentRecipe=recipe; feed.showContent=!feed.showContent; feed.setCurrentRecipe(recipe)" ></recipe-preview>
+                <recipe-preview recipe="recipe" ng-click="currentRecipe=recipe; feed.showContent=!feed.showContent; feed.setCurrentRecipe(recipe)" ></recipe-preview>
+            </li>
+        </div>
+            </div>
+        <div ng-show="feed.showContent" class = "col-md-6">
+            <text-angular ng-model="currentRecipe.content" class="tableCell"></text-angular>
+            <button class="btn-default" ng-click="feed.update(); feed.showContent=false;">submit</button>
+        </div>
+    </div>
+
+    <div ng-show="feed.getProfile" class = "col-md-4" >
+        <label class ="enterFont">Followers</label>
+        <div style=" overflow: scroll; max-height: 40%;">
+            <li class="list-group-item" ng-repeat="person in currentUser.followers">
+                <person-preview person="person"  ng-click="feed.pesronClicked=!feed.pesronClicked;  feed.setCurrentPersonClicked(person)"  ></person-preview>
+            </li>
+        </div>
+    </div>
+    <div ng-show="feed.getProfile" class = "col-md-4" >
+        <label class ="enterFont">Following</label>
+        <div style=" overflow: scroll; max-height: 40%;">
+            <li   class="list-group-item" ng-repeat="person in currentUser.follows">
+                <person-preview person="person"  ng-click="feed.pesronClicked=!feed.pesronClicked;  feed.setCurrentPersonClicked(person)"  ></person-preview>
+            </li>
+        </div>
+    </div>
+    <div  ng-show="feed.pesronClicked" class = "col-md-4" >
+        <person person='currentPersonClicked' ng-click="feed.pesronClicked=!feed.pesronClicked"></person>
+    </div>
+    <div ng-show="currentUser!=null&&feed.editorShow!=true&&feed.profileShow!=true&&feed.getProfile!=true&&showSubmit!=true&&feed.showMyRecipies!=true" class = "col-md-4" >
+        <label class ="enterFont">Popular People</label>
+        <div style=" overflow: scroll; max-height: 40%;">
+        <li   class="list-group-item" ng-repeat="person in popularPeople">
+            <p ng-show="feed.isNotFollowed(person)" class='aligh-self-end' ng-click="feed.follow(person)">
+                <i class="fa fa-child" aria-hidden="true"></i></p>
+            <person-preview person="person"  ng-click="feed.pesronClicked=!feed.pesronClicked;  feed.setCurrentPersonClicked(person)"  ></person-preview>
+        </li>
+        </div>
+    </div>
+    <div  ng-show="feed.recipeClicked" class = "col-md-4" >
+        <recipe recipe="currentRecipe" deselect="feed.recipeClicked" liked="currentRecipe.liked" ></recipe>
+    </div>
+
+    <div  ng-show="currentUser!=null&&feed.editorShow!=true&&feed.profileShow!=true&&feed.getProfile!=true&&showSubmit!=true&&feed.showMyRecipies!=true" class = "col-md-4" >
+        <label class ="enterFont">Popular Recipes</label>
+        <div style=" overflow: scroll; max-height: 40%;">
+            <li   class="list-group-item" ng-repeat="recipe in popularRecipes" >
+                <recipe-preview recipe="recipe" ng-click="feed.recipeClicked=true; feed.setCurrentRecipe(recipe); feed.isLiked()" ></recipe-preview>
+
+            </li>
+        </div>
+    </div>
+
+    <div ng-show='feed.editorShow==true' class = "col-md-3" >
+        <input class ="enterFont txtSighUp" ng-model="newRecipe.title" type="text" placeholder="Title" >
+        <br>
+        <input class ="enterFont txtSighUp"   ng-model="newRecipe.description" type="text"  placeholder="Description">
+        <br>
+        <input class ="enterFont txtSighUp" ng-model="newRecipe.authors" type="text" placeholder="Authors" >
+        <br>
+        <input class ="enterFont txtSighUp"   ng-model="newRecipe.ingredients" type="text"  placeholder="Ingredients">
+        <br>
+        <input class ="enterFont txtSighUp" ng-model="newRecipe.previewPicture" type="text" placeholder="Preview Picture" >
+    </div>
+    <div ng-show="showSubmit">
+        <recipe recipe='newRecipe' deselect='showSubmit' ></recipe>
+    <div ta-bind ng-model="newRecipe.content"></div>
+    </div>
+    <div ng-show='feed.editorShow==true' class = "col-md-4" >
+        <text-angular  ng-model="newRecipe.content" class="tableCell"></text-angular>
+        <button ng-show='feed.editorShow==true' class="btn-default" ng-click="feed.submit(); feed.editorShow=false; showSubmit=true">submit</button>
+    </div>
+    <div ng-show='feed.profileShow==true' >
+        <li class="list-group-item col-md-4" ng-repeat="person in currentUser.followers" ng-show="feed.mode =='people'">
+            <person-preview person="person"></person-Preview>
+        </li>
+        <li class="list-group-item col-md-4" ng-repeat="person in currentUser.follows" ng-show="feed.mode =='people'">
+            <person-preview person="person" ></person-Preview>
+        </li>
+    </div>
+
+    <div class = "col-md-8 text-center">
+
+        <div class='container'>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-12">
+                    <div ng-show='feed.selectedItem == null'>
+                        <!--<button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'recipes'}" ng-click="feed.mode='recipes'">Recipes ({{(feed.items.recipes.length) || 0  }})</button>-->
+                        <!--<button type="button" class="btn btn-outline-secondary btn-sm" ng-class="{active: feed.mode === 'people'}" ng-click="feed.mode='people'">People ({{(feed.items.people.length) || 0}})</button>-->
+
+                        <ul class="list-group" >
+                            <li class="list-group-item" ng-repeat="recipe in feed.items.recipes" ng-show="feed.mode =='recipes'">
+                                <recipe-preview recipe="recipe" ng-click="feed.selectItem(recipe._id, 'recipe')" width="100%" height="100%"></recipe-Preview>
+                            </li>
+                            <li class="list-group-item" ng-repeat="person in feed.items.people" ng-show="feed.mode =='people'">
+                                <person-preview person="person" ng-click="feed.selectItem(person._id, 'person')"></person-Preview>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <recipe ng-show='feed.selectedItemType == "recipe"' recipe="feed.selectedItem" deselect="showSubmit"></recipe>
+
+                </div>
+
+                <div class="col-md-3">
+                    <person ng-show='feed.selectedPerson != null' person='feed.selectedPerson'></person>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

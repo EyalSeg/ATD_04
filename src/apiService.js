@@ -53,8 +53,8 @@ app.service('apiService', ['$http', function($http) {
 
     this.getPerson= function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id )
-            .then((response) => {return response.data});
+        return $http.get(this.serverUrl + "people/"+id );
+
     };
 
     this.getFollowees=function(id)
