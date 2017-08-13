@@ -74,7 +74,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.getLikes= function(id)
     {
-        return $http.get(this.serverUrl + "recipes/"+id+"/likes/").then((res) => {return res.data});
+        return $http.get(this.serverUrl + "recipes/"+id+"/likes").then((res) => {return res.data});
     }
     this.getRecipesById= function(id)
     {
@@ -88,5 +88,10 @@ app.service('apiService', ['$http', function($http) {
     this.updateRecipe=function(id, cont)
     {
         return $http.put(this.serverUrl + "recipes/"+id+"/content/",{'content':cont});
+    }
+    
+    this.getComments=function(recipeId)
+    {
+        return $http.get(this.serverUrl + "recipes/"+recipeId+"/comments/").then((result) => {return result.data})
     }
 }]);

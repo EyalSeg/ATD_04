@@ -16,13 +16,22 @@
                     </h3>
                 </div>
                 <div class="col-md-8">
-                    <h4 class="card-title"> {{recipe.title}}</h4>
+                    <h4 class="card-title"> {{RecipeController.recipe.title}}</h4>
                     <p class="card-text">
                         BLAH BLAH BLAH BLAH 
                     </p>
                 </div>
             </div>
-
+        </div>
+        <div class='card-block' ng-repeat="comment in RecipeController.comments">
+            <div class='col-md-2'>
+                <img ng-src={{comment.author.profilePicture}} class="rounded-circle img-fluid"  >
+                <br/>
+                {{comment.author.name}}
+            </div>
+            <div class='col-md-10'>
+                {{comment.content}}
+            </div>
         </div>
     </div>
 </div>
