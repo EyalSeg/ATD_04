@@ -139,10 +139,13 @@ function recipesService(db, peopleService) {
     }
 
     this.getLikes = function (recipeId) {
+        console.log(recipeId)
         return service.collection('recipes').findOne(
             { '_id': ObjectId(recipeId) },
             { '_id': 0, 'likes': 1 })
             .then((result) => {
+                console.log(result.length)
+                console.log(result[0])
                 var likeIds = result.likes.map((like) => ObjectId(like));
 
                 return service.people.getPeople(likeIds);
