@@ -36,7 +36,7 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
                 $scope.currentUser = response.data;
                 $scope.currentUser.id = id._id;
                 if( $scope.currentUser!=undefined) {
-                    var earl = '/entrance.html/' + $scope.currentUser.id;
+                    var earl = '/entrance/' + $scope.currentUser.id;
                     $location.url(earl);
                 }
                 });
