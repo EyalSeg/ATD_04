@@ -21,30 +21,31 @@ app.config(function($routeProvider) {
         controller : 'profileController',
         controllerAs : 'controller'
     })
+    
+        .when("/people/:personId/follows", {
+        template: '<search-results people="controller.followees">',
+        controller: function($scope, $routeParams, apiService){
+
+            var that = this;
+            var personId = $routeParams.personId
+            this.followees = {}
+            
+            apiService.getFollowees(personId).then((results) => {
+                that.followees = results});
+     
+        },
+        controllerAs:'controller'
+    })
 
         .when("/recipes/:recipeId", {
         templateUrl : "./Views/recipe.html",
         controller : 'recipeController',
         controllerAs : 'controller'
     })
-
-    /** .when('feed/popular', {
-        template: '{{contoller.people}}<search-results people="controller.people" recipes="contolller.recipes">',
-        controller : ['$scope', 'apiService', function($scope, apiService){
-            var that = this;
-            console.log('got here');
-
-            apiService.getPopularPeople().then((results) => {
-                that.people = results});
-            apiService.getPopularRecipes().then((results) => {that.recipes = results});
-        }],
-        controllerAs: 'controller'
-    })**/
-
+    
         .when("/feed/popular", {
         template: '<search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, apiService){
-            console.log('got here!!');
 
             var that = this;
             apiService.getPopularPeople().then((results) => {

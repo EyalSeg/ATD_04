@@ -1,18 +1,16 @@
-app.controller('profileController', function($scope, $routeParams, apiService){
+app.controller('profileController', function($scope, $routeParams, $location, apiService){
     var that = this;
-    var id = $routeParams.personId;
-    this.followers = {};
+    this.id = $routeParams.personId;
 
 
-    apiService.getPerson(id).then((results) => {
+    apiService.getPerson(this.id).then((results) => {
         that.profile = results;
 
     });
 
-    apiService.getFollowers(id)
-        .then((results) => {
-        console.log(results);
-                that.followers = results});  
+    this.showFollowees = function(){
+        $location.path('/people/'+this.id+'/follows')
+    }
 });
 
 
