@@ -1,20 +1,20 @@
 <div class="container-fluid">
     <div class='row justify-content-center'>
         <div class='col'>
-                <img ng-src={{profile.profilePicture}} class="rounded-circle img-fluid"  >
+                <img ng-src={{controller.profile.profilePicture}} class="rounded-circle img-fluid"  >
         </div>
     </div>
     <div class='row justify-content-center'>
         <div class='col'>
-                <h3>{{profile.name}}</h3>
+                <h3>{{controller.profile.name}}</h3>
         </div>
     </div>
     <div class='row justify-content-center'>
         <div class='col'>
-            <p>{{profile.numOfFollowers}} followers</p>
+            <p>{{controller.profile.numOfFollowers}} subscribers</p>
         </div>
         <div class='col'>
-            <p>{{profile.follows}} </p>
+            <p> follows {{controller.profile.numOfFollows}} </p>
         </div>
     </div>
 

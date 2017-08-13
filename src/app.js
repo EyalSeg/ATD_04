@@ -11,9 +11,15 @@ app.config(function($routeProvider) {
     .when("/banana", {
         template : "<h1>Banana</h1><p>Bananas contain around 75% water.</p>"
     })
-    .when("/person/:personId", {
+    .when("/people/:personId", {
         templateUrl : "./Views/profile.html",
         controller : 'profileController',
-        controllerAs : 'profile'
+        controllerAs : 'controller'
+    });
+    
+    .when("/recipes/:recipeId", {
+        templateUrl : "./Views/recipe.html",
+        controller : 'recipeController',
+        controllerAs : 'controller'
     });
 });
