@@ -80,6 +80,10 @@ app.service('apiService', ['$http', function($http) {
     {
         return $http.get(this.serverUrl + "people/"+id+"/recipes/");
     }
+    this.gerPersonById= function(id)
+    {
+        return $http.get(this.serverUrl + "people/"+id);
+    }
 
     this.updateRecipe=function(id, cont)
     {

@@ -1,17 +1,8 @@
 app.controller('signInController', function($scope,$routeParams, apiService){
      var that = this;
-    var id = $routeParams.recipeId;
+    var id = $routeParams.currentUserId;
+    $scope.currentUser= apiService.gerPersonById(id);
 
 
-    this.setCurrentPerson = function (recipe) {
-        $scope.currentPerson = recipe;
-    };
-    this.createNewPerson = function () {
-        if ($scope.newUser.profilePicture != null) {
-            apiService.postPerson($scope.newUser).then(function (response) {
-                $scope.currentUser = $scope.newUser;
-                $scope.currentUser.myRecipes = null;
-            });
-        }
-    };
+
 });
