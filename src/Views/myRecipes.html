@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="feed.css">
+<div ng-show="feed.showMyRecipies" class = "col-md-8" >
+    <label  class ="enterFont">Your Recipes:</label>
+    <div class = "col-md-6">
+        <div   style=" overflow: scroll; max-height: 40%;">
+            <li class="list-group-item " ng-repeat="recipe in currentUser.myRecipes" >
+                <recipe-preview recipe="recipe" ng-click="currentRecipe=recipe; feed.showContent=!feed.showContent; feed.setCurrentRecipe(recipe)" ></recipe-preview>
+                <recipe-preview recipe="recipe" ng-click="currentRecipe=recipe; feed.showContent=!feed.showContent; feed.setCurrentRecipe(recipe)" ></recipe-preview>
+            </li>
+        </div>
+    </div>
+    <div ng-show="feed.showContent" class = "col-md-6">
+        <text-angular ng-model="currentRecipe.content" class="tableCell"></text-angular>
+        <button class="btn-default" ng-click="feed.update(); feed.showContent=false;">submit</button>
+    </div>
+</div>

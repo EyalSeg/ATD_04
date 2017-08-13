@@ -1,0 +1,16 @@
+<div ng-show="feed.getProfile" class = "col-md-4" >
+    <label class ="enterFont">Followers</label>
+    <div style=" overflow: scroll; max-height: 40%;">
+        <li class="list-group-item" ng-repeat="person in currentUser.followers">
+            <person-preview person="person"  ng-click="feed.pesronClicked=!feed.pesronClicked;  feed.setCurrentPersonClicked(person)"  ></person-preview>
+        </li>
+    </div>
+</div>
+<div ng-show="feed.getProfile" class = "col-md-4" >
+    <label class ="enterFont">Following</label>
+    <div style=" overflow: scroll; max-height: 40%;">
+        <li   class="list-group-item" ng-repeat="person in currentUser.follows">
+            <person-preview person="person"  ng-click="feed.pesronClicked=!feed.pesronClicked;  feed.setCurrentPersonClicked(person)"  ></person-preview>
+        </li>
+    </div>
+</div>

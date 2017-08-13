@@ -14,7 +14,7 @@ app.config(function($routeProvider) {
         .when("/signIn", {
         templateUrl : "./Views/signIn.html",
         controller : 'signInController',
-        controllerAs : 'controller'
+        controllerAs : 'singIncontroller'
     })
     .when("/people/:personId", {
         templateUrl : "./Views/profile.html",
