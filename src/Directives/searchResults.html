@@ -1,0 +1,44 @@
+<button data-toggle="collapse" data-target="#peopleList" ng-show="people != null && people.length != 0">People</button>
+<div id="peopleList" class="collapse">
+    <div class="media" ng-repeat="person in people">
+        <img class="d-flex align-self-start" ng-src={{person.profilePicture}} style="width:20%">
+        <div class="media-body">
+            <h5 class="mt-0">{{person.name}}</h5>
+            <p>Some useless info</p>
+            <p>more useless info</p>
+            <p>even more useless info</p>
+        </div>
+    </div>
+</div>
+
+
+<button data-toggle="collapse" data-target="#recipesList" ng-show="recipes != null && recipes.length != 0">Recipes</button>
+<div id="recipesList" class="collapse">
+    <div class="media" ng-repeat='recipe in recipes'>
+        <div class="media-left media-top">
+            <img ng-src={{recipe.profilePicture}} class="media-object" style="width:60px">
+        </div>
+        <div class='media-body'>
+            <div class='media-heading'>
+                <h3>{{recipe.author}}</h3>
+            </div>
+            <div >
+                <div ng-click="feed.selectItem(recipe.id)" class="cuadro_intro_hover " style="background-color:#cccccc; ">
+                    <p style="text-align:center;">
+                        <img ng-src="{{recipe.previewPicture}}" class='img-fluid'>
+                    </p>
+                    <div class="caption">
+                        <div class="blur"></div>
+                        <div class="caption-text">
+                            <h3 style="border-top:0px solid white; border-bottom:2px solid white; padding:30px;">{{recipe.title}}</h3>
+                            <p>{{recipe.content}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
