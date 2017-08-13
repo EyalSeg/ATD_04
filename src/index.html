@@ -9,12 +9,16 @@
 
     <!-- Angular JS -->
     <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.js"></script>
+
 
     <!-- in-house modules and shit -->
     <script type="text/javascript"  src="app.js"></script>
     <script type="text/javascript"  src="apiService.js"></script>
     <script type="text/javascript"  src="feed.js"></script>
     <script type="text/javascript"  src="searchBar.js"></script>
+    <script type="text/javascript"  src="Controllers/profileController.js"></script>
+    
     <!-- textEditor-->
     <link rel='stylesheet' href='dist\textAngular.css'>
     <script src='dist\textAngular-rangy.min.js'></script>
@@ -26,6 +30,7 @@
     </head>
 
     <body ng-app="main" class="backStyle" >
+        <div ng-view></div>
         <feed ></feed>  
 
 

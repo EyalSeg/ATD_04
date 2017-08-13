@@ -31,10 +31,6 @@ app.service('apiService', ['$http', function($http) {
         return $http.get(this.serverUrl + "people?name=" + name);
     };
 
-    this.getPerson = function(id)
-    {
-        return $http.get(this.serverUrl + "people/" + id);
-    };
     this.getPopularPeople = function()
     {
         return $http.get(this.serverUrl + "people/popular/" );
@@ -46,7 +42,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.postPerson= function(user)
     {
-        return $http.post(this.serverUrl + "people/" ,user );
+        return $http.post(this.serverUrl + "people/" , user );
     };
 
     this.signIn= function(email, password)
@@ -56,22 +52,23 @@ app.service('apiService', ['$http', function($http) {
 
     this.getPerson= function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id._id );
+        return $http.get(this.serverUrl + "people/"+id )
+            .then((response) => {return response.data});
     };
 
     this.getFollowees=function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id._id+"/follows/");
+        return $http.get(this.serverUrl + "people/"+id+"/follows/");
 
     };
     this.getFollowers=function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id._id+"/followers/");
+        return $http.get(this.serverUrl + "people/"+id+"/followers/");
     };
 
     this.follow= function(id, followId)
     {
-        return $http.post(this.serverUrl + "people/"+id._id+"/follows/",{'followeeid':followId});
+        return $http.post(this.serverUrl + "people/"+id+"/follows/",{'followeeid':followId});
     }
 
     this.getLikes= function(id)
@@ -80,7 +77,7 @@ app.service('apiService', ['$http', function($http) {
     }
     this.getRecipesById= function(id)
     {
-        return $http.get(this.serverUrl + "people/"+id._id+"/recipes/");
+        return $http.get(this.serverUrl + "people/"+id+"/recipes/");
     }
 
     this.updateRecipe=function(id, cont)
