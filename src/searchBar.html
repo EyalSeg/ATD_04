@@ -1,10 +1,7 @@
 
 <form class="form-inline" style="display: inline;">
-    <input class="form-control" type="text" placeholder="Search" ng-model="searchCtrl.searchQuery" style="    margin-right: 10px;
-    margin-left: 50%;
-    margin-bottom: 10px;
-    width: 400px;">
-    <i class="fa fa-search point fa-2x" aria-hidden="true" ng-click="searchCtrl.search()"></i>
-    <button ng-click="searchCtrl.getLatest()">Latest</button>
-    <button ng-click="searchCtrl.getPopular()">Popular</button>
+    <input class="form-control" type="text" placeholder="Search" ng-model="searchCtrl.searchQuery">
+    <i class="fa fa-search point fa-1x" aria-hidden="true" ng-click="searchCtrl.search()"></i>
+    <button class="btn-default" ng-click="searchCtrl.getLatest()">Latest</button>
+    <button class="btn-default" ng-click="searchCtrl.getPopular()">Popular</button>
 </form>

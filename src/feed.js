@@ -5,7 +5,7 @@ app.directive('feed', function () {
         controller: ['$scope', 'apiService', function ($scope, apiService) {
             this.mode = "login";
             this.toggleText = "register"
-
+this.show=true;
             this.toggle = function(){
                 if (this.mode =='login'){
                     this.mode == 'register'
@@ -254,6 +254,18 @@ app.directive('person', function () {
             person: '='
         }
 
+    };
+});
+
+
+app.directive('tabs', function () {
+    return {
+        restrict: 'E',
+        templateUrl: 'tabs.html',
+        controller: ['$scope', 'apiService', function ($scope, apiService) {
+            this.show=true;
+        }],
+        controllerAs: 'TabsController'
     };
 });
 

@@ -1,10 +1,11 @@
-app.controller('EntranceController', function($scope,$routeParams,$location, apiService){
+app.controller('EntranceController', function($scope, $rootScope, $routeParams,$location, apiService){
      var that = this;
     var id = $routeParams.personId;
-    apiService.getPerson(id).then(function (response) {
-        $scope.currentUser = response.data;
-        $scope.currentUser.id = id;
-    });
+    $scope.currentUser= $rootScope.currentUser;
+    // apiService.getPerson(id).then(function (response) {
+    //     $scope.currentUser = response.data;
+    //     $scope.currentUser.id = id;
+    // });
 
     this.goAddRecipe= function()
     {
