@@ -21,7 +21,8 @@ app.service('apiService', ['$http', function($http) {
     }
 
     this.getRecipe = function(id){
-        return $http.get(this.serverUrl + 'recipes/' + id);
+        return $http.get(this.serverUrl + 'recipes/' + id).
+        then((response) => {return response.data});
     };
 
     this.postRecipe= function(recipe){
