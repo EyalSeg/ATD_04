@@ -53,7 +53,7 @@ function peopleService(db) {
             { '_id': 0, 'follows': 1 }
         )
             .then((results => {
-
+                console.log('found ' + results.follows + 'followees')
                 followeeIds = results.follows.map((id) => ObjectId(id));
                 return service.getPeople(followeeIds, service.personPreviewProjection)
             }));
