@@ -85,7 +85,7 @@ function peopleService(db) {
     }
 
     this.searchPeople = function (searchTerm) {
-        var projection = service.personPreviewProjection;
+        var projection = { 'name': 1, 'profilePicture': 1, 'numOfFollows': 1, 'numOfFollowers': 1 };
         projection['score'] = { '$meta': 'textScore' };
 
         return service.collection('people').aggregate([

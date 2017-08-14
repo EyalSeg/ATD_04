@@ -67,7 +67,7 @@ function recipesService(db, peopleService) {
     }
 
     this.searchRecipes = function (searchTerm) {
-        var projection = service.recipePreviewProjection;
+        var projection = { 'title': 1, 'description': 1, 'authors': 1, 'previewPicture': 1, 'numOfComments': 1, 'creationDate': 1, 'numOfLikes': 1 };
         projection['score'] = { '$meta': 'textScore' };
 
         return service.collection('recipes').aggregate([

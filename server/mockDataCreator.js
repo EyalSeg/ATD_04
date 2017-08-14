@@ -179,19 +179,19 @@ Promise.all([
         var sarah = people[0], john = people[1], suzanne = people[2], alice = people[3], jessica = people[4];
         var recipes = [
             new Recipe(
-                "אמא שלך בלאפה",
+                "שווארמה בלאפה",
                 "כזאת ביג. עם אומלט.",
                 [sarah._id, alice._id],
-                ['אמא שלך', 'לאפה', 'ביצים'],
+                ['לאפה', 'שווארמה'],
                 'https://www.mishlohim.co.il/img/menu/Product_pic338647.jpg',
-                'קח את אמא שלך, שים בלאפה כזאת ביג. להגיש עם אומלט.'),
+                'שווארמה בלאפה זה מדהים.'),
             new Recipe(
-                "קיש אחותך",
-                "נחש מה? היא גם צולעת?",
+                "קיש קישוא",
+                "זה ממש לא קשה!",
                 [john._id],
-                ['אחותך', 'קמח', 'ביצים'],
+                ['קישוא', 'קמח', 'ביצים'],
                 'http://images1.ynet.co.il/xnet//PicServer2/pic/052014/524437/1_7.jpg',
-                'דחפתי כאן את המילה אמא כדי שזה יחזור בחיפוש?')
+                'יותר טוב משווארמה!')
         ];
 
 

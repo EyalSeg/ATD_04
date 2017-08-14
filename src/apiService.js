@@ -49,8 +49,8 @@ app.service('apiService', ['$http', function($http) {
     this.postPerson= function(user)
     {
         return $http.post(this.serverUrl + "people/" , user ).then((res) => {
-            if (res.data._id != undefined)
-                return {'ok': true, 'id':res.data._id}
+            if (res.data != undefined)
+                return {'ok': true, 'id':res.data}
                 else
                     return {'ok':false}
                     });;
