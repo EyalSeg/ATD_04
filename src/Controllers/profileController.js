@@ -5,7 +5,6 @@ app.controller('profileController', function($scope, $routeParams, $location, ap
 
     apiService.getPerson(this.id).then((results) => {
         that.profile = results;
-
     });
 
     this.showFollowees = function(){

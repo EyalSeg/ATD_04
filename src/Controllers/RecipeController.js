@@ -1,3 +1,4 @@
+
 app.controller('RecipeController', function($scope,$routeParams, $location, apiService){
     var that = this;
     this.id = $routeParams.recipeId;
@@ -9,7 +10,7 @@ app.controller('RecipeController', function($scope,$routeParams, $location, apiS
     };
     apiService.getRecipe(this.id).then((results) => {
         that.recipe = results;
-    });
+});
 
     this.loadComments();
 

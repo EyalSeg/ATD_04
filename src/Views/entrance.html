@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="feed.css">dddddd
+<link rel="stylesheet" href="feed.css">
 <div class="row">
     <div class="col-md-5"></div>
     <div class="col-md-12">
@@ -21,9 +21,9 @@
     border-style: double;">
         <label class ="enterFont">{{currentUser.name}}</label>
         <div  class="list-group">
-            <a  class="list-group-item" ng-click='' >Add Recipe</a>
-            <a class="list-group-item" ng-click='' >My Follow Info</a>
-            <a  class="list-group-item" ng-click='' >My Recipes</a>
+            <a  class="list-group-item" ng-click='EntranceController.goAddRecipe()' >Add Recipe</a>
+            <a class="list-group-item" ng-click='EntranceController.goMyFollow()' >My Follow Info</a>
+            <a  class="list-group-item" ng-click='EntranceController.MyRecipes()' >My Recipes</a>
         </div>
     </div>
 </div>
