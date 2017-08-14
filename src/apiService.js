@@ -60,6 +60,7 @@ app.service('apiService', ['$http', function($http) {
     {
         return $http.post(this.serverUrl + "authentification/login/" ,{'email':email , 'password':password})
             .then((res) => {
+            alert(res)
             if (res.data != undefined)
                 return {'ok': true, 'id':res.data._id}
                 else

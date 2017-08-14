@@ -17,6 +17,7 @@ app.directive('searchBar', function(){
             }
 
             this.getPopular = function(){
+                alert('got here')
                 $location.path('feed/popular')
 
             }
