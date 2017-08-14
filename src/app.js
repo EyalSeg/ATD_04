@@ -5,6 +5,12 @@ var app = angular.module('main', ['textAngular', "ngRoute"]);
 
 app.config(function($routeProvider) {
     $routeProvider
+        .when("/addRecipe/:personId", {
+            templateUrl : "./Views/addRecipe.html",
+            controller : 'AddRecipeController',
+            controllerAs : 'AddRecipeController'
+        })
+
         .when("/", {
         templateUrl : "./Views/signIn.html",
         controller : 'SignInController',
@@ -22,7 +28,7 @@ app.config(function($routeProvider) {
         controllerAs : 'ProfileController'
     })
         .when("/people/:personId/follows", {
-        template: '<search-results people="controller.followees">',
+        template: '  <tabs></tabs><search-results people="controller.followees">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -36,7 +42,7 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
     })
         .when("/people/:personId/followers", {
-        template: '<search-results people="controller.followers">',
+        template: '  <tabs></tabs><search-results people="controller.followers">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -50,7 +56,7 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
     })
     .when("/people/:personId/recipes", {
-        template: '<search-results recipes="controller.recipes">',
+        template: '  <tabs></tabs><search-results recipes="controller.recipes">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -68,9 +74,29 @@ app.config(function($routeProvider) {
         controller : 'RecipeController',
         controllerAs : 'RecipeController'
     })
+        .when("/recipes/:recipeId/edit", {
+            templateUrl : "./Views/editRecipe.html",
+            controller: function($scope, $routeParams,$location, apiService){
+                var that = this;
+                var recipeId = $routeParams.recipeId;
+                apiService.getRecipeOld(recipeId).then(function (response) {
+                    $scope.currentRecipe=response.data;
+                });
+
+                    this.update = function () {
+                        apiService.updateRecipe(recipeId, $scope.currentRecipe.content).then(function (response) {
+                        });
+                        $location.path('recipes/' + recipeId)
+                    };
+
+
+            },
+            controllerAs:'editCtrl'
+
+        })
     
     .when("/recipes/:recipeId/likes", {
-        template: '<search-results people="controller.likes">',
+        template: '  <tabs></tabs><search-results people="controller.likes">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -84,7 +110,7 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
         
     }) .when("/recipes/:recipeId/authors", {
-        template: '<search-results people="controller.authors">',
+        template: '  <tabs></tabs><search-results people="controller.authors">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -99,7 +125,7 @@ app.config(function($routeProvider) {
     })
 
         .when('/search', {
-        template: '<search-results people="controller.people" recipes="controller.recipes">',
+        template: '  <tabs></tabs><search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, $routeParams, apiService){
 
             var that = this;
@@ -118,7 +144,7 @@ app.config(function($routeProvider) {
     })
 
         .when("/feed/popular", {
-        template: '<search-results people="controller.people" recipes="controller.recipes">',
+        template: '   <tabs></tabs> <search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, apiService){
 
             var that = this;
@@ -130,7 +156,7 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
     })
      .when("/feed/latest", {
-        template: '<search-results recipes="controller.recipes">',
+        template: '  <tabs></tabs> <search-results recipes="controller.recipes">',
         controller: function($scope, apiService, activeUserService){
             
             this.recipes = {};

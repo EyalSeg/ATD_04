@@ -1,8 +1,8 @@
-app.controller('AddRecipeController', function($scope,$routeParams, apiService){
+app.controller('AddRecipeController', function($scope,$routeParams, $location, apiService){
      var that = this;
     var id = $routeParams.personId;
     apiService.getPerson(id).then(function (response) {
-        $scope.currentUser = response.data;
+        $scope.currentUser = response;
         $scope.currentUser.id = id;
     });
 
@@ -17,10 +17,13 @@ app.controller('AddRecipeController', function($scope,$routeParams, apiService){
 
 
     this.submit = function () {
-        $scope.newRecipe.authors = [$scope.currentUser.id._id];
+        $scope.newRecipe.authors = [$scope.currentUser.id];
         $scope.newRecipe.ingredients = [$scope.newRecipe.ingredients];
+
         apiService.postRecipe($scope.newRecipe).then(function (response) {
+            $location.path('/people/'+id+'/recipes');
         });
+
     };
 
 });

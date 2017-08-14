@@ -1,3 +1,5 @@
+<tabs></tabs>
+<link rel="stylesheet" href="feed.css">
 <div >
     <div class="card text-center">
         <div class="card-header" align="left">
@@ -18,12 +20,12 @@
                 <div class="col-md-8">
                     <h4 class="card-title"> {{RecipeController.recipe.title}}</h4>
                     <p class="card-text">
-                        BLAH BLAH BLAH BLAH 
+                    <div ta-bind ng-model="RecipeController.recipe.content"></div>
                     </p>
                 </div>
                 <div>
                     <p ng-click="RecipeController.gotoAuthors()"> click to view authors!</p>
-                    <h3 ng-show="RecipeController.isAuthor">You are an author of this recipe!</h3>
+                    <i ng-click="RecipeController.edit()" class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </div>
             </div>
         </div>

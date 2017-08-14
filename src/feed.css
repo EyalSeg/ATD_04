@@ -123,3 +123,23 @@
 	background-color: azure;
 }
 
+.list-item:hover
+{
+	background-color: azure !important;
+	cursor: pointer !important;
+}
+.tab
+{
+	padding-top: 7px;
+}
+.tab:hover
+{
+	background-color: azure !important;
+	cursor: pointer !important;
+}
+
+.tab:active
+{
+	background-color: azure !important;
+	cursor: pointer !important;
+}

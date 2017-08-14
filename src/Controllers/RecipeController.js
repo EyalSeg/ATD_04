@@ -45,6 +45,11 @@ app.controller('RecipeController', function($scope,$routeParams, $location, apiS
         this.commentText = "";
     }
 
+    this.edit= function()
+    {
+        $location.path('recipes/'+this.id + '/edit');
+    }
+
     this.like = function(){
         apiService.like(this.recipe._id, activeUserService.activeUserId)
             .then((res) =>{

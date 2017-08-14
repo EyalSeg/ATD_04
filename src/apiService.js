@@ -26,6 +26,10 @@ app.service('apiService', ['$http', function($http) {
         then((response) => {return response.data});
     };
 
+    this.getRecipeOld = function(id){
+        return $http.get(this.serverUrl + 'recipes/' + id);
+    };
+
     this.postRecipe= function(recipe){
         return $http.post(this.serverUrl + 'recipes/',recipe);
     };
@@ -112,6 +116,8 @@ app.service('apiService', ['$http', function($http) {
     {
         return $http.get(this.serverUrl + "people/"+id+"/recipes/").then((res) => {return res.data});
     }
+
+
     this.gerPersonById= function(id)
     {
         return $http.get(this.serverUrl + "people/"+id);

@@ -258,14 +258,3 @@ app.directive('person', function () {
 });
 
 
-app.directive('tabs', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'tabs.html',
-        controller: ['$scope', 'apiService', function ($scope, apiService) {
-            this.show=true;
-        }],
-        controllerAs: 'TabsController'
-    };
-});
-

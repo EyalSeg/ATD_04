@@ -1,7 +1,14 @@
-
+<link rel="stylesheet" href="feed.css">
 <form class="form-inline" style="display: inline;">
-    <input class="form-control" type="text" placeholder="Search" ng-model="searchCtrl.searchQuery">
-    <i class="fa fa-search point fa-1x" aria-hidden="true" ng-click="searchCtrl.search()"></i>
-    <button class="btn-default" ng-click="searchCtrl.getLatest()">Latest</button>
-    <button class="btn-default" ng-click="searchCtrl.getPopular()">Popular</button>
+
+    <ul class="nav nav-pills">
+        <li><a>    <input class="form-control" type="text" placeholder="Search" ng-model="searchCtrl.searchQuery">
+            <i class="fa fa-search point fa-1x" aria-hidden="true" ng-click="searchCtrl.search()"></i></a></li>
+        <div class="col-md-1">
+        </div>
+        <li class="tab" style="   margin-left: 12px;"><a  class="tab" ng-click="searchCtrl.getLatest()">Latest</a></li>
+        <div class="col-md-1">
+        </div>
+        <li class="tab" ><a ng-click="searchCtrl.getPopular()">Popular</a></li>
+    </ul>
 </form>
