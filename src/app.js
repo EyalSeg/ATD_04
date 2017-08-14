@@ -116,9 +116,10 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
     })
      .when("/feed/latest", {
-        template: '{{contoller.recipes}}<search-results recipes="controller.recipes"',
+        template: '<search-results recipes="controller.recipes">',
         controller: function($scope, apiService, activeUserService){
-
+            
+            this.recipes = {};
             var that = this;
             apiService.getLatestRecipes(activeUserService.activeUserId).then((results) => {
                 that.recipes = results});

@@ -17,7 +17,8 @@ app.service('apiService', ['$http', function($http) {
     };
 
     this.getLatestRecipes = function(requesterId){
-        return $http.get(this.serverUrl + 'recipes/latest?requesterId=' + requesterId).then((res) => {return res.data.data});
+        return $http.get(this.serverUrl + 'recipes/latest?requesterId=' + requesterId)
+        .then((res) => {return res.data});
     }
 
     this.getRecipe = function(id){
@@ -43,14 +44,19 @@ app.service('apiService', ['$http', function($http) {
 
     this.postPerson= function(user)
     {
-        return $http.post(this.serverUrl + "people/" , user );
+        return $http.post(this.serverUrl + "people/" , user ).then((res) => {
+            if (res.data._id != undefined)
+                return {'ok': true, 'id':res.data._id}
+                else
+                    return {'ok':false}
+                    });;
     };
 
     this.signIn= function(email, password)
     {
         return $http.post(this.serverUrl + "authentification/login/" ,{'email':email , 'password':password})
             .then((res) => {
-            if (res.data._id != undefined)
+            if (res.data != undefined)
                 return {'ok': true, 'id':res.data._id}
                 else
                     return {'ok':false}

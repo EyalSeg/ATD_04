@@ -18,31 +18,33 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
     this.createNewPerson = function () {
         if ($scope.newUser.profilePicture != null) {
             apiService.postPerson($scope.newUser).then(function (response) {
-                $scope.currentUser = $scope.newUser;
-                $scope.currentUser.id=response.data;
-                if( $scope.currentUser!=undefined) {
-                    var earl = '/entrance.html/' + $scope.currentUser.id;
-                    $location.url(earl);
+                if (response.ok){
+                    activeUserService.activeUserId = response.id;
+                    $location.path('feed/popular')
                 }
+                else{
+                    alert('error!')
+                    //TODO 
+                }
+
+            })
+        };
+        this.signIn = function () {
+
+            apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
+
+                if (response.ok){
+                    activeUserService.activeUserId = response.id;
+                    $location.path('feed/latest')
+                }
+                else{
+                    alert('error!')
+                    //TODO 
+                }
+
             });
 
-        }
-    };
-    this.signIn = function () {
+        };
 
-        apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
-
-            if (response.ok){
-                activeUserService.activeUserId = response.id;
-                $location.path('feed/latest')
-            }
-            else{
-                alert('error!')
-                //TODO 
-            }
-          
-        });
-
-    };
-
+    }
 });
