@@ -124,7 +124,7 @@ app.config(function($routeProvider) {
         controllerAs:'controller'
     })
 
-        .when('/search', {
+        .when('/search/:query', {
         template: '  <tabs></tabs><search-results people="controller.people" recipes="controller.recipes">',
         controller: function($scope, $routeParams, apiService){
 
@@ -161,6 +161,7 @@ app.config(function($routeProvider) {
             
             this.recipes = {};
             var that = this;
+            console.log(activeUserService.activeUserId);
             apiService.getLatestRecipes(activeUserService.activeUserId).then((results) => {
                 that.recipes = results});
         },

@@ -6,6 +6,8 @@ app.directive('tabs', function(){
         },
         controller: ['$scope','$location', 'activeUserService', function($scope,   $location, activeUserService){
 
+            this.query = "";
+            
             this.goAddRecipe= function()
             {
                 if(activeUserService!=undefined) {
@@ -13,6 +15,11 @@ app.directive('tabs', function(){
                     $location.url(earl);
                 }
             };
+
+        //    this.gotoSearch() = function(){
+        //        alert('search ' + this.query)
+        //        $location.path('/search?query=' + this.query);
+         //   };
         }],
         controllerAs: 'tabsCtrl'
     } 

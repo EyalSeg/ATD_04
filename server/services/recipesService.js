@@ -99,17 +99,19 @@ function recipesService(db, peopleService) {
                     },
                     service.addRecipeFields,
                     { '$project': service.recipePreviewProjection },
-                    { '$sort': { 'creationDate': -1 } }
-                ]).toArray();
+                 //   { '$sort': { 'creationDate': -1 } }
+                ]).sort({'creationDate': -1 }).toArray();
             })
     }
 
     this.getPopularRecipes = function () {
+        var projection = service.recipePreviewProjection;
+
         return service.collection('recipes').aggregate([
             service.addRecipeFields,
-            { '$project': service.recipePreviewProjection },
-            { '$sort': { 'numOfLikes': -1 } }
-        ]).toArray();;
+            { '$project': projection },
+          //   { '$sort': { 'numOfLikes': -1 } }
+        ]).sort({'numOfLikes' : -1}).toArray();;
     }
 
     this.getPersonRecipes = function (authorId) {

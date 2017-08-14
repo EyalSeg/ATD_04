@@ -31,6 +31,7 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
         }};
     this.signIn = function () {
         apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
+            alert(response)
             if (response.ok){
                 activeUserService.activeUserId = response.id;
                 $location.path('feed/latest')

@@ -3,7 +3,7 @@
     border-style: ridge;
     border-color: white;" class="col-md-12">
     <ul class="nav nav-pills">
-        <search-bar class="col-md-5" results="feed.items"></search-bar>
+        <search-bar class="col-md-5" ng-model="tabsCtrl.query" ></search-bar>
         <li class="tab" ><a style="display: inline;" ng-click='tabsCtrl.goAddRecipe()' >Add Recipe</a></li>
     </ul>
 </div>

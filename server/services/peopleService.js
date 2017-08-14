@@ -155,8 +155,8 @@ function peopleService(db) {
         return service.collection('people').aggregate([
             service.addPersonFields,
             { '$project': service.personPreviewProjection },
-            { '$sort': { 'numOfFollowers': -1 } }
-        ]).toArray();;
+            //{ '$sort': { 'numOfFollowers': -1 } }
+        ]).sort({ 'numOfFollowers': -1 }).toArray();;
     }
 
 }
