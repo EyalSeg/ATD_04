@@ -24,6 +24,9 @@ exports.getRouter = function (services) {
     router.delete('/:recipeId/likes/:likerId', ctrl.unlike);
     router.delete('/:recipeId/authors/:authorId', ctrl.removeAuthor);
 
+    router.head('/:recipeId/authors/:authorId', ctrl.hasAuthor)
+    router.head('/:recipeId/likes/:likerId', ctrl.hasLike)
+
     return router;
 }
 
@@ -149,6 +152,26 @@ function controller(services) {
                 else
                     res.send(result)
             });
+    }
+
+    this.hasAuthor = function(req, res){
+        services['recipes'].authorExists(req.params['recipeId'], req.params['authorId'])
+        .then((result) => {
+            if (result)
+                res.sendStatus(200);
+            else
+                res.sendStatus(204);
+        })
+    }
+
+    this.hasLike = function(req, res){
+        services['recipes'].hasLike(req.params['recipeId'], req.params['likerId'])
+        .then((result) => {
+            if (result)
+                res.sendStatus(200);
+            else
+                res.sendStatus(204);
+        })
     }
 }
 

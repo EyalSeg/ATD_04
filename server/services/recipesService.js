@@ -36,6 +36,16 @@ function recipesService(db, peopleService) {
             ).then((response) => { return JSON.parse(response).ok });
     }
 
+    this.authorExists = function (recipeId, authorId) {
+        return service.collection('recipes').findOne(
+            { '_id': ObjectId(recipeId) },
+            { 'authors': 1 })
+            .then((result) => {
+                return result.authors.some((author) => author._id == authorId);
+            })
+
+    }
+
     this.removeRecipeAuthor = function (recipeId, authorId) {
         return service.collection('recipes').update(
             { '_id': ObjectId(recipeId) },
@@ -103,7 +113,7 @@ function recipesService(db, peopleService) {
     }
 
     this.getPersonRecipes = function (authorId) {
-         return service.collection('recipes').aggregate([
+        return service.collection('recipes').aggregate([
             { '$match': { 'authors': { '$elemMatch': { '_id': ObjectId(authorId) } } } },
             service.addRecipeFields,
             { '$project': service.recipeProjection },
@@ -136,6 +146,26 @@ function recipesService(db, peopleService) {
             { '_id': ObjectId(recipeId) },
             { '$pull': { 'likes': ObjectId(likerId) } }
         ).then((response) => { return JSON.parse(response).ok });
+    }
+
+    this.hasLike = function (recipeId, likerId) {
+        return service.collection('recipes').findOne(
+            { '_id': ObjectId(recipeId) },
+            { 'likes': 1 })
+            .then((result) => {
+                return result.likes.some((liker) => liker == likerId);
+            })
+
+    }
+
+    this.authorExists = function (recipeId, authorId) {
+        return service.collection('recipes').findOne(
+            { '_id': ObjectId(recipeId) },
+            { 'authors': 1 })
+            .then((result) => {
+                return result.authors.some((author) => author._id == authorId);
+            })
+
     }
 
     this.getLikes = function (recipeId) {

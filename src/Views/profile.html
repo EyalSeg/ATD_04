@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class='row justify-content-center'>
         <div class='col'>
-                <img ng-src={{ProfileController.profile.profilePicture}} class="rounded-circle img-fluid"  >
+            <img ng-src={{ProfileController.profile.profilePicture}} class="rounded-circle img-fluid"  >
         </div>
     </div>
     <div class='row justify-content-center'>
         <div class='col'>
-                <h3>{{ProfileController.profile.name}}</h3>
+            <h3>{{ProfileController.profile.name}}</h3>
         </div>
     </div>
     <div class='row justify-content-center' ng-click="ProfileController.showFollowers()">
@@ -17,6 +17,10 @@
             <p> follows {{ProfileController.profile.numOfFollows}} </p>
         </div>
         <div ng-click="ProfileController.showRecipes()">Show recipes!</div>
+    </div>
+    <div ng-hide="ProfileController.isSelf">
+        <p ng-show="ProfileController.isFollowed" ng-click='ProfileController.unfollow()'>unfollow</p>
+        <p ng-show="!ProfileController.isFollowed" ng-click='ProfileController.follow()'>follow</p>
     </div>
 
 </div>

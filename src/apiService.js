@@ -18,7 +18,7 @@ app.service('apiService', ['$http', function($http) {
 
     this.getLatestRecipes = function(requesterId){
         return $http.get(this.serverUrl + 'recipes/latest?requesterId=' + requesterId)
-        .then((res) => {return res.data});
+            .then((res) => {return res.data});
     }
 
     this.getRecipe = function(id){
@@ -74,6 +74,12 @@ app.service('apiService', ['$http', function($http) {
         return $http.get(this.serverUrl + "people/"+id+"/follows/").then((res) => {return res.data});
 
     };
+    
+    this.hasFollowee = function(followerId, followeeId){
+        return $http.head(this.serverUrl + "people/"+followerId+"/follows/"+followeeId)
+        .then((response) => {return response.status == 200})
+
+    }
     this.getFollowers=function(id)
     {
         return $http.get(this.serverUrl + "people/"+id+"/followers/").then((res) => {return res.data});
@@ -81,13 +87,27 @@ app.service('apiService', ['$http', function($http) {
 
     this.follow= function(id, followId)
     {
-        return $http.post(this.serverUrl + "people/"+id+"/follows/",{'followeeid':followId});
+        return $http.post(this.serverUrl + "people/"+id+"/follows/",{'followeeId':followId});
+    }
+    
+    this.unfollow= function(id, followId)
+    {
+        return $http.delete(this.serverUrl + "people/"+id+"/follows/"+ followId);
     }
 
     this.getLikes= function(id)
     {
         return $http.get(this.serverUrl + "recipes/"+id+"/likes").then((res) => {return res.data});
     }
+    
+    this.like = function(recipeId, likerId){
+         return $http.post(this.serverUrl + "recipes/"+recipeId+"/likes", {likerId: likerId}).then((res) => {return res.status});
+    }
+    
+    this.unlike = function(recipeId, likerId){
+        return   $http.delete(this.serverUrl + "recipes/"+recipeId+"/likes/" + likerId).then((res) => {return res.status});
+    }
+    
     this.getRecipesById= function(id)
     {
         return $http.get(this.serverUrl + "people/"+id+"/recipes/").then((res) => {return res.data});
@@ -105,5 +125,24 @@ app.service('apiService', ['$http', function($http) {
     this.getComments=function(recipeId)
     {
         return $http.get(this.serverUrl + "recipes/"+recipeId+"/comments/").then((result) => {return result.data})
+    }
+    this.postComment=function(recipeId, authorId, content)
+    {
+        return $http.post(this.serverUrl + "recipes/"+recipeId+"/comments/", 
+                          {'author':authorId, 'content':content})
+            .then((result) => {return {'ok': result.status == 201}})
+    }
+
+    this.getRecipeAuthors = function(recipeId){
+        return this.getRecipe(recipeId).then((recipe) => {return recipe.authors})
+    }
+
+    this.recipeHasAuthor = function(recipeId, authorId){
+        return $http.head(this.serverUrl + 'recipes/' + recipeId + '/authors/' + authorId)
+            .then((response) => {return response.status == 200})
+    } 
+    this.recipeHasLike = function(recipeId, likerId){
+        return $http.head(this.serverUrl + 'recipes/' + recipeId + '/likes/' + likerId)
+            .then((response) => {return response.status == 200})
     }
 }]);

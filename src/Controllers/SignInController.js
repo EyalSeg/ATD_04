@@ -28,23 +28,21 @@ app.controller('SignInController', function($scope, $routeParams,  $location, ap
                 }
 
             })
-        };
-        this.signIn = function () {
+        }};
+    this.signIn = function () {
+        apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
+            if (response.ok){
+                activeUserService.activeUserId = response.id;
+                $location.path('feed/latest')
+            }
+            else{
+                alert('error!')
+                //TODO 
+            }
 
-            apiService.signIn($scope.signInUser.email, $scope.signInUser.password).then(function (response) {
+        });
 
-                if (response.ok){
-                    activeUserService.activeUserId = response.id;
-                    $location.path('feed/latest')
-                }
-                else{
-                    alert('error!')
-                    //TODO 
-                }
+    };
 
-            });
-
-        };
-
-    }
 });
+             

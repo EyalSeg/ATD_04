@@ -8,10 +8,10 @@
                 <div class="col-md-4">
                     <img ng-src={{RecipeController.recipe.previewPicture}} class="media-object" style="width:60px">
                     <h3 ng-click="RecipeController.gotoLikes()">num of likes: {{RecipeController.recipe.numOfLikes}}</h3>
-                    <h3 ng-show="!liked" ng-click="add">
+                    <h3 ng-show="!RecipeController.liked" ng-click="RecipeController.like()">
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                     </h3>
-                    <h3 ng-show="liked" ng-click="remove">
+                    <h3 ng-show="RecipeController.liked" ng-click="RecipeController.unlike()">
                         <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
                     </h3>
                 </div>
@@ -21,11 +21,19 @@
                         BLAH BLAH BLAH BLAH 
                     </p>
                 </div>
+                <div>
+                    <p ng-click="RecipeController.gotoAuthors()"> click to view authors!</p>
+                    <h3 ng-show="RecipeController.isAuthor">You are an author of this recipe!</h3>
+                </div>
             </div>
         </div>
+        <form novalidate>
+            <textarea ng-model="RecipeController.commentText"></textarea>
+            <button ng-click="RecipeController.postComment()">Submit</button>
+        </form>
         <div class='card-block' ng-repeat="comment in RecipeController.comments">
             <div class='col-md-2'>
-                <img ng-src={{comment.author.profilePicture}} class="rounded-circle img-fluid"  >
+                <img ng-src={{comment.author.profilePicture}} class="rounded-circle img-fluid">
                 <br/>
                 {{comment.author.name}}
             </div>

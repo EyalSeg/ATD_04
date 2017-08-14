@@ -18,6 +18,8 @@ exports.getRouter = function (services) {
 
     router.delete('/:followerId/follows/:followeeId', ctrl.unfollow);
 
+    router.head('/:followerId/follows/:followeeId', ctrl.hasFollowee);
+
     return router;
 }
 
@@ -66,6 +68,16 @@ function controller(services) {
         services['people'].getFollowers(req.params['id'])
             .then(function (followers) {
                 res.send(followers);
+            });
+    }
+
+    this.hasFollowee = function (req, res) {
+        services['people'].hasFollowee(req.params['followerId'], req.params['followeeId'])
+            .then(function (result) {
+                if (result)
+                    res.sendStatus(200);
+                else
+                    res.sendStatus(204);
             });
     }
 

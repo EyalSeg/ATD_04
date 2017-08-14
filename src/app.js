@@ -75,10 +75,24 @@ app.config(function($routeProvider) {
 
             var that = this;
             var recipeId = $routeParams.recipeId
-            this.followees = {}
+            this.likes = {}
 
             apiService.getLikes(recipeId).then((results) => {
                 that.likes = results});
+
+        },
+        controllerAs:'controller'
+        
+    }) .when("/recipes/:recipeId/authors", {
+        template: '<search-results people="controller.authors">',
+        controller: function($scope, $routeParams, apiService){
+
+            var that = this;
+            var recipeId = $routeParams.recipeId
+            this.authors = {}
+
+            apiService.getRecipeAuthors(recipeId).then((results) => {
+                that.authors = results});
 
         },
         controllerAs:'controller'

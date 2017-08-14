@@ -49,8 +49,8 @@ function peopleService(db) {
 
     this.getFollowees = function (followerId) {
         return service.getFolloweeIds(followerId).then((ids) => {
-            ids = ids.follows.map((id) => ObjectId(id));
-            return service.getPeople(followeeIds, service.personPreviewProjection)
+            ids = ids.map((id) => ObjectId(id));
+            return service.getPeople(ids, service.personPreviewProjection)
 
         })
     }
@@ -76,6 +76,12 @@ function peopleService(db) {
                 followerIds = results.followers.map((id) => ObjectId(id));
                 return service.getPeople(followerIds, service.personPreviewProjection)
             }));
+    }
+
+    this.hasFollowee = function (followerId, followeeId) {
+        return service.getFolloweeIds(followerId)
+        .then((ids) =>{
+            return ids.some((id) => id == followeeId)})
     }
 
     this.searchPeople = function (searchTerm) {
